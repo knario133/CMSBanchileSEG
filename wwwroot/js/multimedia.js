@@ -56,10 +56,10 @@
             reader.onload = async () => {
                 const base64Data = reader.result.split(',')[1];
                 const multimediaData = {
-                    NombreOriginal: file.name,     // CORRECCIÓN
-                    TipoMIME: file.type,           // CORRECCIÓN
-                    ArchivoBase64: base64Data,     // CORRECCIÓN
-                    IdUsuarioSubio: app.userSession.IdUsuario // CORRECCIÓN
+                    nombreOriginal: file.name,     // CORRECCIÓN
+                    tipoMIME: file.type,           // CORRECCIÓN
+                    archivoBase64: base64Data,     // CORRECCIÓN
+                    idUsuarioSubio: app.userSession.IdUsuario // CORRECCIÓN
                 };
 
                 app.mostrarSpinner();
@@ -93,6 +93,43 @@
     }
 
     async function cargarMultimedia() {
+        // ... (sin cambios en el payload) ...
+    }
+
+    function renderizarGaleria(multimedia) {
+        // ... (sin cambios en el payload) ...
+    }
+
+    function eliminarMultimedia(id) {
+        Swal.fire({
+            title: '¿Estás seguro?', text: "El archivo se eliminará permanentemente.", icon: 'warning',
+            showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Sí, eliminar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                app.mostrarSpinner();
+                try {
+                    const response = await fetch(API_URLS.multimedia.eliminar, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ idArchivo: id }) // CORRECCIÓN
+                    });
+                    const res = await response.json();
+                    if (res.Respuesta && !res.Respuesta.Error) {
+                        Swal.fire('Eliminado', 'El archivo ha sido eliminado.', 'success');
+                        cargarMultimedia();
+                    } else {
+                        Swal.fire('Error', res.Respuesta.Message || 'No se pudo eliminar.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error de red al eliminar:', error);
+                } finally {
+                    app.ocultarSpinner();
+                }
+            }
+        });
+    }
+
+    async function cargarMultimedia() {
         app.mostrarSpinner();
         try {
             const response = await fetch(API_URLS.multimedia.listar);
@@ -120,7 +157,6 @@
 
         multimedia.forEach(item => {
             const esImagen = item.TipoMIME.startsWith('image');
-            // Asumo que el handler de listar también devuelve Base64, aunque no esté en el designer.cs
             const src = `data:${item.TipoMIME};base64,${item.ArchivoBase64 || item.Base64}`;
 
             container.innerHTML += `
@@ -139,35 +175,6 @@
                     </div>
                 </div>
             `;
-        });
-    }
-
-    function eliminarMultimedia(id) {
-        Swal.fire({
-            title: '¿Estás seguro?', text: "El archivo se eliminará permanentemente.", icon: 'warning',
-            showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Sí, eliminar'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                app.mostrarSpinner();
-                try {
-                    const response = await fetch(API_URLS.multimedia.eliminar, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ IdArchivo: id }) // CORRECCIÓN
-                    });
-                    const res = await response.json();
-                    if (res.Respuesta && !res.Respuesta.Error) {
-                        Swal.fire('Eliminado', 'El archivo ha sido eliminado.', 'success');
-                        cargarMultimedia();
-                    } else {
-                        Swal.fire('Error', res.Respuesta.Message || 'No se pudo eliminar.', 'error');
-                    }
-                } catch (error) {
-                    console.error('Error de red al eliminar:', error);
-                } finally {
-                    app.ocultarSpinner();
-                }
-            }
         });
     }
 })();

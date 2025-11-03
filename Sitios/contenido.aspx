@@ -61,6 +61,10 @@
                                     <option value="Publicado">Publicado</option>
                                 </select>
                             </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="es-destacado">
+                                <label class="form-check-label" for="es-destacado">Marcar como destacado</label>
+                            </div>
                             <div class="d-grid gap-2">
                                 <button type="button" id="btn-guardar-contenido" class="btn btn-primary">Guardar</button>
                                 <button type="button" id="btn-cancelar" class="btn btn-secondary">Volver al listado</button>
