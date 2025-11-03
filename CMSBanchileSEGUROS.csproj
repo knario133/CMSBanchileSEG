@@ -44,6 +44,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -149,6 +153,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Banchile_CMS.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Banchile_CMS.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -156,15 +165,198 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Categoria_Actualizar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Categoria_Actualizar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Categoria_Crear.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Categoria_Crear.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Categoria_Eliminar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Categoria_Eliminar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Categoria_Listar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Categoria_Listar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Categoria_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Categoria_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_Asignar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoMultimedia_Asignar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_ListarPorContenido.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoMultimedia_ListarPorContenido.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_Quitar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoMultimedia_Quitar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoRol_ActualizarPermiso.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoRol_ActualizarPermiso.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoRol_AsignarPermiso.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoRol_AsignarPermiso.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoRol_ListarPorContenido.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoRol_ListarPorContenido.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoRol_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoRol_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_ContenidoRol_QuitarPermiso.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_ContenidoRol_QuitarPermiso.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Contenido_Actualizar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Contenido_Actualizar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Contenido_Crear.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Contenido_Crear.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Contenido_Eliminar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Contenido_Eliminar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Contenido_Listar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Contenido_Listar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Contenido_ListarPorCategoria.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Contenido_ListarPorCategoria.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Contenido_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Contenido_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_HistorialContenido_ListarPorContenido.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_HistorialContenido_ListarPorContenido.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_HistorialContenido_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_HistorialContenido_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_HistorialContenido_Registrar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_HistorialContenido_Registrar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Multimedia_Actualizar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Multimedia_Actualizar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Multimedia_Crear.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Multimedia_Crear.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Multimedia_Eliminar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Multimedia_Eliminar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Multimedia_Listar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Multimedia_Listar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Multimedia_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Multimedia_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Rol_Actualizar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Rol_Actualizar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Rol_Crear.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Rol_Crear.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Rol_Eliminar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Rol_Eliminar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Rol_Listar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Rol_Listar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Rol_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Rol_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_UsuarioRol_Asignar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_UsuarioRol_Asignar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_UsuarioRol_ListarPorUsuario.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_UsuarioRol_ListarPorUsuario.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_UsuarioRol_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_UsuarioRol_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_UsuarioRol_Quitar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_UsuarioRol_Quitar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_UsuarioRol_QuitarPorIds.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_UsuarioRol_QuitarPorIds.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Usuario_Actualizar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Usuario_Actualizar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Usuario_Crear.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Usuario_Crear.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Usuario_Eliminar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Usuario_Eliminar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Usuario_Listar.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Usuario_Listar.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Usuario_ObtenerPorId.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Usuario_ObtenerPorId.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Handler_usp_CMS_Usuario_ValidarLogin.ashx.cs">
+      <DependentUpon>Handler_usp_CMS_Usuario_ValidarLogin.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="OperacionesBD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Template.Master.cs">
       <DependentUpon>Template.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Template.Master.designer.cs">
       <DependentUpon>Template.Master</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Banchile_CMS.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Banchile_CMS.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Handlers\Handler_usp_CMS_Categoria_Actualizar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_UsuarioRol_QuitarPorIds.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Categoria_Crear.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Categoria_Eliminar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Categoria_Listar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Categoria_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Contenido_Actualizar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Contenido_Crear.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Contenido_Eliminar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Contenido_Listar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Contenido_ListarPorCategoria.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Contenido_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_Asignar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_ListarPorContenido.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoMultimedia_Quitar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoRol_ActualizarPermiso.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoRol_AsignarPermiso.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoRol_ListarPorContenido.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoRol_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_ContenidoRol_QuitarPermiso.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_HistorialContenido_ListarPorContenido.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_HistorialContenido_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_HistorialContenido_Registrar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Multimedia_Actualizar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Multimedia_Crear.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Multimedia_Eliminar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Multimedia_Listar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Multimedia_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Rol_Actualizar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Rol_Crear.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Rol_Eliminar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Rol_Listar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Rol_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Usuario_Actualizar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Usuario_Crear.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Usuario_Eliminar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Usuario_Listar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Usuario_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_Usuario_ValidarLogin.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_UsuarioRol_Asignar.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_UsuarioRol_ListarPorUsuario.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_UsuarioRol_ObtenerPorId.ashx" />
+    <Content Include="Handlers\Handler_usp_CMS_UsuarioRol_Quitar.ashx" />
     <None Include="packages.config" />
     <Content Include="Template.Master" />
     <None Include="Web.Debug.config">
@@ -172,6 +364,14 @@
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Banchile_CMS.dbml.layout">
+      <DependentUpon>Banchile_CMS.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <PropertyGroup>

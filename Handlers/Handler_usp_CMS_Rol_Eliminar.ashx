@@ -1,0 +1,1 @@
+<%@ WebHandler Language="C#" CodeBehind="Handler_usp_CMS_Rol_Eliminar.ashx.cs" Class="CMSBanchileSEGUROS.Handler_usp_CMS_Rol_Eliminar" %>

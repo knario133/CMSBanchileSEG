@@ -1,0 +1,1 @@
+<%@ WebHandler Language="C#" CodeBehind="Handler_usp_CMS_UsuarioRol_ObtenerPorId.ashx.cs" Class="CMSBanchileSEGUROS.Handler_usp_CMS_UsuarioRol_ObtenerPorId" %>

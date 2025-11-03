@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BANCHILE_CMS" Class="Banchile_CMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Function Name="dbo.usp_CMS_Categoria_Actualizar" Method="usp_CMS_Categoria_Actualizar">
+    <Parameter Name="IdCategoria" Parameter="idCategoria" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Nombre" Parameter="nombre" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Descripcion" Parameter="descripcion" Type="System.String" DbType="NVarChar(250)" />
+    <Parameter Name="IdCategoriaPadre" Parameter="idCategoriaPadre" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_UsuarioRol_QuitarPorIds" Method="usp_CMS_UsuarioRol_QuitarPorIds">
+    <Parameter Name="IdUsuario" Parameter="idUsuario" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdRol" Parameter="idRol" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Categoria_Crear" Method="usp_CMS_Categoria_Crear">
+    <Parameter Name="Nombre" Parameter="nombre" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Descripcion" Parameter="descripcion" Type="System.String" DbType="NVarChar(250)" />
+    <Parameter Name="IdCategoriaPadre" Parameter="idCategoriaPadre" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Categoria_CrearResult">
+      <Column Name="IdCategoriaCreada" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Categoria_Eliminar" Method="usp_CMS_Categoria_Eliminar">
+    <Parameter Name="IdCategoria" Parameter="idCategoria" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Categoria_Listar" Method="usp_CMS_Categoria_Listar">
+    <ElementType Name="usp_CMS_Categoria_ListarResult">
+      <Column Name="IdCategoria" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="IdCategoriaPadre" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Categoria_ObtenerPorId" Method="usp_CMS_Categoria_ObtenerPorId">
+    <Parameter Name="IdCategoria" Parameter="idCategoria" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Categoria_ObtenerPorIdResult">
+      <Column Name="IdCategoria" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="IdCategoriaPadre" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Contenido_Actualizar" Method="usp_CMS_Contenido_Actualizar">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Titulo" Parameter="titulo" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="CuerpoHTML" Parameter="cuerpoHTML" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="IdCategoria" Parameter="idCategoria" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Estado" Parameter="estado" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="IdUsuarioAutor" Parameter="idUsuarioAutor" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EsDestacado" Parameter="esDestacado" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Contenido_Crear" Method="usp_CMS_Contenido_Crear">
+    <Parameter Name="Titulo" Parameter="titulo" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="CuerpoHTML" Parameter="cuerpoHTML" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="IdCategoria" Parameter="idCategoria" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Estado" Parameter="estado" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="IdUsuarioAutor" Parameter="idUsuarioAutor" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EsDestacado" Parameter="esDestacado" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="usp_CMS_Contenido_CrearResult">
+      <Column Name="IdContenidoCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Contenido_Eliminar" Method="usp_CMS_Contenido_Eliminar">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Contenido_Listar" Method="usp_CMS_Contenido_Listar">
+    <ElementType Name="usp_CMS_Contenido_ListarResult">
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Titulo" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CuerpoHTML" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="IdCategoria" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Estado" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="FechaCreacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FechaModificacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IdUsuarioAutor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EsDestacado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Contenido_ListarPorCategoria" Method="usp_CMS_Contenido_ListarPorCategoria">
+    <Parameter Name="IdCategoria" Parameter="idCategoria" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Contenido_ListarPorCategoriaResult">
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Titulo" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CuerpoHTML" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="IdCategoria" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Estado" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="FechaCreacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FechaModificacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IdUsuarioAutor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EsDestacado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Contenido_ObtenerPorId" Method="usp_CMS_Contenido_ObtenerPorId">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Contenido_ObtenerPorIdResult">
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Titulo" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CuerpoHTML" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="IdCategoria" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Estado" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="FechaCreacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FechaModificacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IdUsuarioAutor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EsDestacado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoMultimedia_Asignar" Method="usp_CMS_ContenidoMultimedia_Asignar">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdArchivo" Parameter="idArchivo" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_ContenidoMultimedia_AsignarResult">
+      <Column Name="IdContenidoMultimediaCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoMultimedia_ListarPorContenido" Method="usp_CMS_ContenidoMultimedia_ListarPorContenido">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_ContenidoMultimedia_ListarPorContenidoResult">
+      <Column Name="IdArchivo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreOriginal" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="TipoMIME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdContenidoMultimedia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoMultimedia_ObtenerPorId" Method="usp_CMS_ContenidoMultimedia_ObtenerPorId">
+    <Parameter Name="IdContenidoMultimedia" Parameter="idContenidoMultimedia" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_ContenidoMultimedia_ObtenerPorIdResult">
+      <Column Name="IdContenidoMultimedia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdArchivo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoMultimedia_Quitar" Method="usp_CMS_ContenidoMultimedia_Quitar">
+    <Parameter Name="IdContenidoMultimedia" Parameter="idContenidoMultimedia" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoRol_ActualizarPermiso" Method="usp_CMS_ContenidoRol_ActualizarPermiso">
+    <Parameter Name="IdContenidoRol" Parameter="idContenidoRol" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Permiso" Parameter="permiso" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoRol_AsignarPermiso" Method="usp_CMS_ContenidoRol_AsignarPermiso">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdRol" Parameter="idRol" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Permiso" Parameter="permiso" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="usp_CMS_ContenidoRol_AsignarPermisoResult">
+      <Column Name="IdContenidoRolCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoRol_ListarPorContenido" Method="usp_CMS_ContenidoRol_ListarPorContenido">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_ContenidoRol_ListarPorContenidoResult">
+      <Column Name="IdContenidoRol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdRol" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Permiso" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoRol_ObtenerPorId" Method="usp_CMS_ContenidoRol_ObtenerPorId">
+    <Parameter Name="IdContenidoRol" Parameter="idContenidoRol" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_ContenidoRol_ObtenerPorIdResult">
+      <Column Name="IdContenidoRol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdRol" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Permiso" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_ContenidoRol_QuitarPermiso" Method="usp_CMS_ContenidoRol_QuitarPermiso">
+    <Parameter Name="IdContenidoRol" Parameter="idContenidoRol" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_HistorialContenido_ListarPorContenido" Method="usp_CMS_HistorialContenido_ListarPorContenido">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_HistorialContenido_ListarPorContenidoResult">
+      <Column Name="IdHistorial" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdUsuario" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FechaCambio" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Comentario" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_HistorialContenido_ObtenerPorId" Method="usp_CMS_HistorialContenido_ObtenerPorId">
+    <Parameter Name="IdHistorial" Parameter="idHistorial" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_HistorialContenido_ObtenerPorIdResult">
+      <Column Name="IdHistorial" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdContenido" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdUsuario" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FechaCambio" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Comentario" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_HistorialContenido_Registrar" Method="usp_CMS_HistorialContenido_Registrar">
+    <Parameter Name="IdContenido" Parameter="idContenido" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdUsuario" Parameter="idUsuario" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Comentario" Parameter="comentario" Type="System.String" DbType="NVarChar(250)" />
+    <ElementType Name="usp_CMS_HistorialContenido_RegistrarResult">
+      <Column Name="IdHistorialCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Multimedia_Actualizar" Method="usp_CMS_Multimedia_Actualizar">
+    <Parameter Name="IdArchivo" Parameter="idArchivo" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NombreOriginal" Parameter="nombreOriginal" Type="System.String" DbType="NVarChar(200)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Multimedia_Crear" Method="usp_CMS_Multimedia_Crear">
+    <Parameter Name="NombreOriginal" Parameter="nombreOriginal" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="ArchivoBase64" Parameter="archivoBase64" Type="System.String" DbType="Text" />
+    <Parameter Name="TipoMIME" Parameter="tipoMIME" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="IdUsuarioSubio" Parameter="idUsuarioSubio" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Multimedia_CrearResult">
+      <Column Name="IdArchivoCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Multimedia_Eliminar" Method="usp_CMS_Multimedia_Eliminar">
+    <Parameter Name="IdArchivo" Parameter="idArchivo" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Multimedia_Listar" Method="usp_CMS_Multimedia_Listar">
+    <ElementType Name="usp_CMS_Multimedia_ListarResult">
+      <Column Name="IdArchivo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreOriginal" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="TipoMIME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdUsuarioSubio" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FechaSubida" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Multimedia_ObtenerPorId" Method="usp_CMS_Multimedia_ObtenerPorId">
+    <Parameter Name="IdArchivo" Parameter="idArchivo" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Multimedia_ObtenerPorIdResult">
+      <Column Name="IdArchivo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreOriginal" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="ArchivoBase64" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="TipoMIME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdUsuarioSubio" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FechaSubida" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Rol_Actualizar" Method="usp_CMS_Rol_Actualizar">
+    <Parameter Name="IdRol" Parameter="idRol" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NombreRol" Parameter="nombreRol" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Descripcion" Parameter="descripcion" Type="System.String" DbType="NVarChar(250)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Rol_Crear" Method="usp_CMS_Rol_Crear">
+    <Parameter Name="NombreRol" Parameter="nombreRol" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Descripcion" Parameter="descripcion" Type="System.String" DbType="NVarChar(250)" />
+    <ElementType Name="usp_CMS_Rol_CrearResult">
+      <Column Name="IdRolCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Rol_Eliminar" Method="usp_CMS_Rol_Eliminar">
+    <Parameter Name="IdRol" Parameter="idRol" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Rol_Listar" Method="usp_CMS_Rol_Listar">
+    <ElementType Name="usp_CMS_Rol_ListarResult">
+      <Column Name="IdRol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreRol" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Rol_ObtenerPorId" Method="usp_CMS_Rol_ObtenerPorId">
+    <Parameter Name="IdRol" Parameter="idRol" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Rol_ObtenerPorIdResult">
+      <Column Name="IdRol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreRol" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Usuario_Actualizar" Method="usp_CMS_Usuario_Actualizar">
+    <Parameter Name="IdUsuario" Parameter="idUsuario" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NombreCompleto" Parameter="nombreCompleto" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="Usuario" Parameter="usuario" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="NVarChar(200)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Usuario_Crear" Method="usp_CMS_Usuario_Crear">
+    <Parameter Name="NombreCompleto" Parameter="nombreCompleto" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="Usuario" Parameter="usuario" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="NVarChar(200)" />
+    <ElementType Name="usp_CMS_Usuario_CrearResult">
+      <Column Name="IdUsuarioCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Usuario_Eliminar" Method="usp_CMS_Usuario_Eliminar">
+    <Parameter Name="IdUsuario" Parameter="idUsuario" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_CMS_Usuario_Listar" Method="usp_CMS_Usuario_Listar">
+    <ElementType Name="usp_CMS_Usuario_ListarResult">
+      <Column Name="IdUsuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreCompleto" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="UltimoLogin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Usuario_ObtenerPorId" Method="usp_CMS_Usuario_ObtenerPorId">
+    <Parameter Name="IdUsuario" Parameter="idUsuario" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_Usuario_ObtenerPorIdResult">
+      <Column Name="IdUsuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreCompleto" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="UltimoLogin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_Usuario_ValidarLogin" Method="usp_CMS_Usuario_ValidarLogin">
+    <Parameter Name="Usuario" Parameter="usuario" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="NVarChar(200)" />
+    <ElementType Name="usp_CMS_Usuario_ValidarLoginResult">
+      <Column Name="IdUsuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreCompleto" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="UltimoLogin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UltimoLoginActualizado" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_UsuarioRol_Asignar" Method="usp_CMS_UsuarioRol_Asignar">
+    <Parameter Name="IdUsuario" Parameter="idUsuario" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdRol" Parameter="idRol" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_UsuarioRol_AsignarResult">
+      <Column Name="IdUsuarioRolCreado" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_UsuarioRol_ListarPorUsuario" Method="usp_CMS_UsuarioRol_ListarPorUsuario">
+    <Parameter Name="IdUsuario" Parameter="idUsuario" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_UsuarioRol_ListarPorUsuarioResult">
+      <Column Name="IdRol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreRol" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="IdUsuarioRol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_UsuarioRol_ObtenerPorId" Method="usp_CMS_UsuarioRol_ObtenerPorId">
+    <Parameter Name="IdUsuarioRol" Parameter="idUsuarioRol" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_CMS_UsuarioRol_ObtenerPorIdResult">
+      <Column Name="IdUsuarioRol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdUsuario" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdRol" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CMS_UsuarioRol_Quitar" Method="usp_CMS_UsuarioRol_Quitar">
+    <Parameter Name="IdUsuarioRol" Parameter="idUsuarioRol" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

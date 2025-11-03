@@ -1,0 +1,1 @@
+<%@ WebHandler Language="C#" CodeBehind="Handler_usp_CMS_Rol_Listar.ashx.cs" Class="CMSBanchileSEGUROS.Handler_usp_CMS_Rol_Listar" %>
