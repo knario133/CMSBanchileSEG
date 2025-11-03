@@ -1,4 +1,4 @@
-<%@ Page Title="Login - CMS Banchile" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="CMSBanchileSEGUROS.Sitios.login" %>
+<%@ Page Title="Login - CMS Banchile" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="CMSBanchileSEGUROS.Sitios.login" Culture="es-CL" UICulture="es-CL" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
         /* Estilos específicos para la página de login */
@@ -37,11 +37,11 @@
                 <div id="login-form">
                     <div class="mb-3">
                         <label for="usuario" class="form-label">Usuario</label>
-                        <input type="text" class="form-control" id="usuario" placeholder="Ingrese su usuario" required>
+                        <input type="text" class="form-control" id="usuario" placeholder="Ingrese su usuario" autocomplete="username" required>
                     </div>
                     <div class="mb-3">
                         <label for="contrasena" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasena" placeholder="Ingrese su contraseña" required>
+                        <input type="password" class="form-control" id="contrasena" placeholder="Ingrese su contraseña" autocomplete="current-password" required>
                     </div>
                     <div class="d-grid">
                         <button type="button" id="login-button" class="btn btn-primary">Ingresar</button>
