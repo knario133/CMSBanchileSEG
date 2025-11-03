@@ -1,10 +1,6 @@
 <%@ Page Title="Intranet - Banchile Seguros" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CMSBanchileSEGUROS.Default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
-        /* Ocultar el sidebar en la vista pública */
-        .sidebar { display: none; }
-        .main-content { margin-left: 0; }
-    </style>
+    <!-- Estilos específicos del portal, si fueran necesarios en el futuro -->
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container py-4">
@@ -18,8 +14,8 @@
         <div class="row">
             <!-- Columna de filtros -->
             <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card shadow-sm">
+                    <div class="card-header fw-bold">
                         Categorías
                     </div>
                     <div class="list-group list-group-flush" id="lista-categorias">
@@ -32,7 +28,6 @@
             <!-- Columna de contenidos -->
             <div class="col-md-9">
                 <main id="contenedor-contenidos">
-                    <!-- Contenidos (artículos) se cargarán aquí -->
                     <div class="text-center p-5">
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Cargando...</span>

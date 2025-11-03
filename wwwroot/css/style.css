@@ -3,53 +3,24 @@
     --secondary-color: #f8f9fa; /* Gris claro */
     --accent-color: #005ea2;
     --text-color: #333;
-    --sidebar-bg: #f8f9fa;
-    --sidebar-link-color: #333;
-    --sidebar-link-hover-color: #003366;
-    --sidebar-link-active-color: #003366;
-    --navbar-bg: #fff;
-    --navbar-link-color: #333;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #e9ecef;
+    /* Añadimos padding al body para compensar la navbar fija */
+    padding-top: 70px;
 }
 
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 250px;
-    padding: 1.5rem;
-    background-color: var(--sidebar-bg);
-    border-right: 1px solid #dee2e6;
-    transition: all 0.3s;
+/* Estilos para la navbar que ahora está en Template.Master */
+#main-navbar {
+    background-color: var(--primary-color) !important;
 }
 
-.sidebar .nav-link {
-    color: var(--sidebar-link-color);
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.sidebar .nav-link:hover {
-    color: var(--sidebar-link-hover-color);
-}
-
-.sidebar .nav-link.active {
-    color: var(--sidebar-link-active-color);
-    font-weight: bold;
-}
-
-.main-content {
-    margin-left: 250px;
-    padding: 2rem;
-}
-
-.navbar-brand img {
-    max-height: 40px;
+main {
+    background-color: #fff;
+    border-radius: .5rem;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
 
 .card-header {

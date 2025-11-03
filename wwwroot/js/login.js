@@ -34,9 +34,14 @@
 
                 const result = await response.json();
 
-                if (result.Success && result.Data) {
+                // --- MODIFICACIÓN CLAVE ---
+                // Validar la nueva estructura de la respuesta
+                if (result.Respuesta && !result.Respuesta.Error && result.Respuesta.Resultado && result.Respuesta.Resultado.length > 0) {
+
+                    const userData = result.Respuesta.Resultado[0];
+
                     // Guardar sesión en localStorage
-                    localStorage.setItem('userSession', JSON.stringify(result.Data));
+                    localStorage.setItem('userSession', JSON.stringify(userData));
 
                     Swal.fire({
                         title: '¡Bienvenido!',
@@ -49,7 +54,7 @@
                     });
 
                 } else {
-                    Swal.fire('Error de autenticación', result.Message || 'Usuario o contraseña incorrectos.', 'error');
+                    Swal.fire('Error de autenticación', result.Respuesta.Message || 'Usuario o contraseña incorrectos.', 'error');
                 }
 
             } catch (error) {
