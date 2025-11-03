@@ -5,12 +5,14 @@
     let todosLosRoles = [];
 
     document.addEventListener('DOMContentLoaded', function () {
-        // ... (inicialización sin cambios)
 
         tablaUsuarios = $('#tabla-usuarios').DataTable({
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             columns: [
-                { data: 'IdUsuario' }, { data: 'Usuario' }, { data: 'NombreCompleto' }, { data: 'Email' },
+                { data: 'IdUsuario' },
+                { data: 'Usuario' },
+                { data: 'NombreCompleto' },
+                // { data: 'Email' }, // CORRECCIÓN: Columna eliminada
                 { data: 'Activo', render: data => data ? '<span class="badge bg-success">Sí</span>' : '<span class="badge bg-danger">No</span>' },
                 { data: 'IdUsuario', render: data => `
                         <button class="btn btn-sm btn-info btn-editar" data-id="${data}"><i class="fas fa-edit"></i></button>
@@ -29,99 +31,9 @@
         $('#tabla-usuarios tbody').on('click', '.btn-eliminar', function () { eliminarUsuario($(this).data('id')); });
     });
 
-    // ... (cargarDatosIniciales y renderizarCheckboxesRoles sin cambios)
+    // ... (El resto del archivo no cambia en esta corrección)
+    // ... (Pegando el resto del código para que no se pierda)
 
-    async function guardarUsuario() {
-        const usuarioData = {
-            idUsuario: document.getElementById('usuario-id').value || 0,
-            nombreCompleto: document.getElementById('nombre-completo').value,
-            usuario: document.getElementById('usuario').value,
-            password: document.getElementById('contrasena').value
-        };
-
-        const rolesSeleccionados = Array.from(document.querySelectorAll('#roles-container input:checked')).map(cb => cb.value);
-        const url = usuarioData.idUsuario != 0 ? API_URLS.usuario.actualizar : API_URLS.usuario.crear;
-
-        app.mostrarSpinner();
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(usuarioData)
-            });
-            const result = await response.json();
-
-            if (result.Respuesta && !result.Respuesta.Error) {
-                const idUsuarioGuardado = result.Respuesta.Resultado[0].IdUsuarioCreado || usuarioData.idUsuario;
-                await guardarRoles(idUsuarioGuardado, rolesSeleccionados);
-                new bootstrap.Modal(document.getElementById('modal-usuario')).hide();
-                Swal.fire('Éxito', 'Usuario guardado correctamente.', 'success');
-                cargarDatosIniciales();
-            } else {
-                Swal.fire('Error', result.Respuesta.Message || 'No se pudo guardar el usuario.', 'error');
-            }
-        } catch (error) {
-            console.error('Error de red al guardar usuario:', error);
-        } finally {
-            app.ocultarSpinner();
-        }
-    }
-
-    async function guardarRoles(idUsuario, rolesNuevos) {
-        // CORRECCIÓN: Lógica mejorada para añadir/quitar roles
-        const rolesResponse = await fetch(`${API_URLS.usuarioRol.listarPorUsuario}?idUsuario=${idUsuario}`);
-        const rolesResult = await rolesResponse.json();
-        const rolesActuales = (rolesResult.Respuesta.Resultado || []).map(r => r.IdRol.toString());
-
-        const rolesAAgregar = rolesNuevos.filter(id => !rolesActuales.includes(id));
-        const rolesAQuitar = rolesActuales.filter(id => !rolesNuevos.includes(id));
-
-        const promesas = [];
-        rolesAAgregar.forEach(idRol => {
-            promesas.push(fetch(API_URLS.usuarioRol.asignar, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idUsuario: idUsuario, idRol: idRol }) // camelCase
-            }));
-        });
-        rolesAQuitar.forEach(idRol => {
-            promesas.push(fetch(API_URLS.usuarioRol.quitarPorIds, { // Usar nuevo handler
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idUsuario: idUsuario, idRol: idRol }) // camelCase
-            }));
-        });
-
-        await Promise.all(promesas);
-    }
-
-    function eliminarUsuario(id) {
-         Swal.fire({
-            title: '¿Estás seguro?', text: "El usuario será eliminado.", icon: 'warning',
-            showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Sí, eliminar'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                app.mostrarSpinner();
-                try {
-                    const response = await fetch(API_URLS.usuario.eliminar, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ idUsuario: id }) // camelCase
-                    });
-                    const res = await response.json();
-                     if (res.Respuesta && !res.Respuesta.Error) {
-                        Swal.fire('Eliminado', 'Usuario eliminado.', 'success');
-                        cargarDatosIniciales();
-                     } else {
-                        Swal.fire('Error', res.Respuesta.Message || 'No se pudo eliminar.', 'error');
-                     }
-                } catch(e) {
-                    console.error("Error de red al eliminar usuario:", e);
-                } finally {
-                    app.ocultarSpinner();
-                }
-            }
-        });
-    }
-
-    // --- Funciones sin cambios de payload ---
     async function cargarDatosIniciales() {
         app.mostrarSpinner();
         try {
@@ -208,4 +120,94 @@
             app.ocultarSpinner();
         }
     }
+
+    async function guardarUsuario() {
+        const usuarioData = {
+            idUsuario: document.getElementById('usuario-id').value || 0,
+            nombreCompleto: document.getElementById('nombre-completo').value,
+            usuario: document.getElementById('usuario').value,
+            password: document.getElementById('contrasena').value
+        };
+
+        const rolesSeleccionados = Array.from(document.querySelectorAll('#roles-container input:checked')).map(cb => cb.value);
+        const url = usuarioData.idUsuario != 0 ? API_URLS.usuario.actualizar : API_URLS.usuario.crear;
+
+        app.mostrarSpinner();
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(usuarioData)
+            });
+            const result = await response.json();
+
+            if (result.Respuesta && !result.Respuesta.Error) {
+                const idUsuarioGuardado = result.Respuesta.Resultado[0].IdUsuarioCreado || usuarioData.idUsuario;
+                await guardarRoles(idUsuarioGuardado, rolesSeleccionados);
+                new bootstrap.Modal(document.getElementById('modal-usuario')).hide();
+                Swal.fire('Éxito', 'Usuario guardado correctamente.', 'success');
+                cargarDatosIniciales();
+            } else {
+                Swal.fire('Error', result.Respuesta.Message || 'No se pudo guardar el usuario.', 'error');
+            }
+        } catch (error) {
+            console.error('Error de red al guardar usuario:', error);
+        } finally {
+            app.ocultarSpinner();
+        }
+    }
+
+    async function guardarRoles(idUsuario, rolesNuevos) {
+        const rolesResponse = await fetch(`${API_URLS.usuarioRol.listarPorUsuario}?idUsuario=${idUsuario}`);
+        const rolesResult = await rolesResponse.json();
+        const rolesActuales = (rolesResult.Respuesta.Resultado || []).map(r => r.IdRol.toString());
+
+        const rolesAAgregar = rolesNuevos.filter(id => !rolesActuales.includes(id));
+        const rolesAQuitar = rolesActuales.filter(id => !rolesNuevos.includes(id));
+
+        const promesas = [];
+        rolesAAgregar.forEach(idRol => {
+            promesas.push(fetch(API_URLS.usuarioRol.asignar, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idUsuario: idUsuario, idRol: idRol })
+            }));
+        });
+        rolesAQuitar.forEach(idRol => {
+            promesas.push(fetch(API_URLS.usuarioRol.quitarPorIds, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idUsuario: idUsuario, idRol: idRol })
+            }));
+        });
+
+        await Promise.all(promesas);
+    }
+
+    function eliminarUsuario(id) {
+         Swal.fire({
+            title: '¿Estás seguro?', text: "El usuario será eliminado.", icon: 'warning',
+            showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Sí, eliminar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                app.mostrarSpinner();
+                try {
+                    const response = await fetch(API_URLS.usuario.eliminar, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ idUsuario: id })
+                    });
+                    const res = await response.json();
+                     if (res.Respuesta && !res.Respuesta.Error) {
+                        Swal.fire('Eliminado', 'Usuario eliminado.', 'success');
+                        cargarDatosIniciales();
+                     } else {
+                        Swal.fire('Error', res.Respuesta.Message || 'No se pudo eliminar.', 'error');
+                     }
+                } catch(e) {
+                    console.error("Error de red al eliminar usuario:", e);
+                } finally {
+                    app.ocultarSpinner();
+                }
+            }
+        });
+    }
+
 })();
