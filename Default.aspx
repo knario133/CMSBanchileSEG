@@ -1,5 +1,47 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CMSBanchileSEGUROS.Default" %>
+<%@ Page Title="Intranet - Banchile Seguros" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CMSBanchileSEGUROS.Default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        /* Ocultar el sidebar en la vista pública */
+        .sidebar { display: none; }
+        .main-content { margin-left: 0; }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="container py-4">
+        <header class="pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                <img src="/wwwroot/img/banchile-corredores-de-seguro-logo.png" alt="Logo" style="max-height: 50px;" class="me-3">
+                <span class="fs-4">Portal de Contenidos</span>
+            </a>
+        </header>
+
+        <div class="row">
+            <!-- Columna de filtros -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        Categorías
+                    </div>
+                    <div class="list-group list-group-flush" id="lista-categorias">
+                        <a href="#" class="list-group-item list-group-item-action active" data-id-categoria="">Todas</a>
+                        <!-- Categorías se cargarán aquí -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna de contenidos -->
+            <div class="col-md-9">
+                <main id="contenedor-contenidos">
+                    <!-- Contenidos (artículos) se cargarán aquí -->
+                    <div class="text-center p-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="/wwwroot/js/portal.js"></script>
 </asp:Content>
