@@ -12,7 +12,7 @@
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             columns: [
                 { data: 'IdRol' },
-                { data: 'Nombre' },
+                { data: 'NombreRol' }, // CORRECCIÓN para DataTables
                 {
                     data: 'IdRol',
                     render: data => `
@@ -69,7 +69,7 @@
 
         const rolData = {
             IdRol: document.getElementById('rol-id').value || 0,
-            Nombre: document.getElementById('nombre-rol').value
+            NombreRol: document.getElementById('nombre-rol').value // CORRECCIÓN
         };
 
         const url = rolData.IdRol ? API_URLS.rol.actualizar : API_URLS.rol.crear;
@@ -106,7 +106,7 @@
                 const rol = result.Respuesta.Resultado[0];
                 document.getElementById('form-rol').reset();
                 document.getElementById('rol-id').value = rol.IdRol;
-                document.getElementById('nombre-rol').value = rol.Nombre;
+                document.getElementById('nombre-rol').value = rol.NombreRol; // CORRECCIÓN
                 document.getElementById('modal-rol-label').textContent = 'Editar Rol';
                 new bootstrap.Modal(document.getElementById('modal-rol')).show();
             } else {

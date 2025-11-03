@@ -122,7 +122,7 @@
             CuerpoHTML: quill.root.innerHTML,
             IdCategoria: document.getElementById('categoria').value,
             Estado: document.getElementById('estado').value,
-            IdUsuario: app.userSession.IdUsuario
+            IdUsuarioAutor: app.userSession.IdUsuario // CORRECCIÓN
         };
 
         const url = contenidoData.IdContenido ? API_URLS.contenido.actualizar : API_URLS.contenido.crear;

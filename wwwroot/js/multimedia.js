@@ -56,10 +56,10 @@
             reader.onload = async () => {
                 const base64Data = reader.result.split(',')[1];
                 const multimediaData = {
-                    Nombre: file.name,
-                    TipoArchivo: file.type,
-                    Base64: base64Data,
-                    IdUsuario: app.userSession.IdUsuario
+                    NombreOriginal: file.name,     // CORRECCIÓN
+                    TipoMIME: file.type,           // CORRECCIÓN
+                    ArchivoBase64: base64Data,     // CORRECCIÓN
+                    IdUsuarioSubio: app.userSession.IdUsuario // CORRECCIÓN
                 };
 
                 app.mostrarSpinner();
@@ -119,21 +119,22 @@
         }
 
         multimedia.forEach(item => {
-            const esImagen = item.TipoArchivo.startsWith('image');
-            const src = `data:${item.TipoArchivo};base64,${item.Base64}`;
+            const esImagen = item.TipoMIME.startsWith('image');
+            // Asumo que el handler de listar también devuelve Base64, aunque no esté en el designer.cs
+            const src = `data:${item.TipoMIME};base64,${item.ArchivoBase64 || item.Base64}`;
 
             container.innerHTML += `
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                     <div class="card gallery-card">
                         ${esImagen
-                            ? `<a href="${src}" target="_blank"><img src="${src}" class="card-img-top" alt="${item.Nombre}"></a>`
+                            ? `<a href="${src}" target="_blank"><img src="${src}" class="card-img-top" alt="${item.NombreOriginal}"></a>`
                             : `<div class="card-img-top pdf-icon text-danger"><a href="${src}" target="_blank"><i class="fas fa-file-pdf"></i></a></div>`
                         }
                         <div class="card-body">
-                            <p class="card-text text-truncate" title="${item.Nombre}">${item.Nombre}</p>
+                            <p class="card-text text-truncate" title="${item.NombreOriginal}">${item.NombreOriginal}</p>
                         </div>
                         <div class="card-footer text-center">
-                            <button class="btn btn-sm btn-danger btn-eliminar" data-id="${item.IdMultimedia}"><i class="fas fa-trash"></i> Eliminar</button>
+                            <button class="btn btn-sm btn-danger btn-eliminar" data-id="${item.IdArchivo}"><i class="fas fa-trash"></i> Eliminar</button>
                         </div>
                     </div>
                 </div>
@@ -152,7 +153,7 @@
                     const response = await fetch(API_URLS.multimedia.eliminar, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ IdMultimedia: id })
+                        body: JSON.stringify({ IdArchivo: id }) // CORRECCIÓN
                     });
                     const res = await response.json();
                     if (res.Respuesta && !res.Respuesta.Error) {

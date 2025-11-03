@@ -11,14 +11,14 @@
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             responsive: true,
             columns: [
-                { data: 'IdHistorialContenido' },
+                { data: 'IdHistorial' }, // CORRECCIÓN
                 { data: 'IdContenido' },
-                { data: 'TipoAccion' },
+                { data: 'TipoAccion' }, // Asumido
                 {
-                    data: 'FechaAccion',
+                    data: 'FechaCambio', // CORRECCIÓN
                     render: (data) => new Date(data).toLocaleString()
                 },
-                { data: 'NombreUsuario' },
+                { data: 'NombreUsuario' }, // Asumido
                 {
                     data: 'Detalles',
                     render: (data) => `<pre style="white-space: pre-wrap; word-break: break-all;">${data || ''}</pre>`
@@ -32,7 +32,6 @@
             if (e.key === 'Enter') cargarHistorial(filtroContenidoInput.value);
         });
 
-        // Cargar con ID de URL si existe (ej. historial.aspx?idContenido=1)
         const urlParams = new URLSearchParams(window.location.search);
         const idContenido = urlParams.get('idContenido');
         if (idContenido) {
