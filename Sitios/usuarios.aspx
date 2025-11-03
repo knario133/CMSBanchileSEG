@@ -15,11 +15,11 @@
                         <input type="hidden" id="usuario-id">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3"><label for="usuario" class="form-label">Usuario (Login)</label><input type="text" class="form-control" id="usuario"></div>
-                                <div class="mb-3"><label for="nombre-completo" class="form-label">Nombre Completo</label><input type="text" class="form-control" id="nombre-completo"></div>
-                                <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" class="form-control" id="email"></div>
-                                <div class="mb-3"><label for="contrasena" class="form-label">Contraseña</label><input type="password" class="form-control" id="contrasena"><small class="form-text text-muted">Dejar en blanco para no cambiar.</small></div>
-                                <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="activo" checked><label class="form-check-label" for="activo">Usuario Activo</label></div>
+                                <div class="mb-3"><label for="usuario" class="form-label">Usuario (Login)</label><input type="text" class="form-control" id="usuario" name="usuario" required></div>
+                                <div class="mb-3"><label for="nombre-completo" class="form-label">Nombre Completo</label><input type="text" class="form-control" id="nombre-completo" name="nombre-completo" required></div>
+                                <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" class="form-control" id="email" name="email" required></div>
+                                <div class="mb-3"><label for="contrasena" class="form-label">Contraseña</label><input type="password" class="form-control" id="contrasena" name="contrasena"><small class="form-text text-muted">Dejar en blanco para no cambiar.</small></div>
+                                <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="activo" name="activo" checked><label class="form-check-label" for="activo">Usuario Activo</label></div>
                             </div>
                             <div class="col-md-6">
                                 <h5>Roles Asignados</h5>

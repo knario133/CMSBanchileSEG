@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <div>
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Contenidos Publicados</div>
-                        <div id="total-contenidos" class="h5 mb-0 font-weight-bold text-gray-800">...</div>
+                        <div id="total-contenidos" class="h5 mb-0 font-weight-bold text-gray-800"><%= ContenidoCount %></div>
                     </div>
                     <div class="icon"><i class="fas fa-file-alt fa-2x text-gray-300"></i></div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="card-body">
                      <div>
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Usuarios Registrados</div>
-                        <div id="total-usuarios" class="h5 mb-0 font-weight-bold text-gray-800">...</div>
+                        <div id="total-usuarios" class="h5 mb-0 font-weight-bold text-gray-800"><%= UsuariosCount %></div>
                     </div>
                      <div class="icon"><i class="fas fa-users fa-2x text-gray-300"></i></div>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <div>
                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Categorías Creadas</div>
-                        <div id="total-categorias" class="h5 mb-0 font-weight-bold text-gray-800">...</div>
+                        <div id="total-categorias" class="h5 mb-0 font-weight-bold text-gray-800"><%= CategoriasCount %></div>
                     </div>
                     <div class="icon"><i class="fas fa-folder-open fa-2x text-gray-300"></i></div>
                 </div>

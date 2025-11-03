@@ -52,3 +52,7 @@
 
     // ... (demás funciones sin cambios de payload)
 })();
+
+$(document).ready(function () {
+    $('#tabla-contenidos').DataTable();
+});

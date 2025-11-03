@@ -69,3 +69,7 @@
     // Las demás funciones no envían payloads y no necesitan cambios.
     // ...
 })();
+
+$(document).ready(function () {
+    $('#tabla-categorias').DataTable();
+});

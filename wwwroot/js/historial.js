@@ -75,3 +75,7 @@
     }
 
 })();
+
+$(document).ready(function () {
+    $('#tabla-historial').DataTable();
+});

@@ -11,7 +11,18 @@ namespace CMSBanchileSEGUROS.Sitios
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                // The code that is causing the error is likely in the .aspx file,
+                // but this try-catch block will help us identify the issue.
+            }
+            catch (Exception ex)
+            {
+                // Log the exception to a file or the event log.
+                // For now, we'll just write it to the response.
+                Response.Write("An error occurred: " + ex.Message);
+                Response.End();
+            }
         }
     }
 }
