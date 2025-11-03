@@ -2,7 +2,7 @@
     'use strict';
 
     let tablaCategorias;
-    let todasLasCategorias = []; // Almacenar todas las categorías para buscar nombres de padres
+    let todasLasCategorias = [];
 
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -14,7 +14,6 @@
         const nombreCategoriaInput = document.getElementById('nombre-categoria');
         const categoriaPadreSelect = document.getElementById('categoria-padre');
 
-        // Inicializar DataTable
         tablaCategorias = $('#tabla-categorias').DataTable({
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             responsive: true,
@@ -31,171 +30,156 @@
                 },
                 {
                     data: 'IdCategoria',
-                    render: function (data, type, row) {
-                        return `
-                            <button class="btn btn-sm btn-info btn-editar" data-id="${data}"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-danger btn-eliminar" data-id="${data}"><i class="fas fa-trash"></i></button>
-                        `;
-                    },
+                    render: (data) => `
+                        <button class="btn btn-sm btn-info btn-editar" data-id="${data}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger btn-eliminar" data-id="${data}"><i class="fas fa-trash"></i></button>
+                    `,
                     orderable: false
                 }
             ]
         });
 
-        // Cargar datos iniciales
         cargarCategorias();
 
-        // --- MANEJADORES DE EVENTOS ---
-
-        // Abrir modal para nueva categoría
         document.getElementById('btn-nueva-categoria').addEventListener('click', function () {
             formCategoria.reset();
             categoriaIdInput.value = '';
             modalLabel.textContent = 'Nueva Categoría';
+            actualizarSelectPadre();
             modal.show();
         });
 
-        // Guardar o actualizar categoría
-        document.getElementById('btn-guardar-categoria').addEventListener('click', async function () {
-            if (!nombreCategoriaInput.value.trim()) {
-                Swal.fire('Campo requerido', 'El nombre de la categoría es obligatorio.', 'warning');
-                return;
-            }
+        document.getElementById('btn-guardar-categoria').addEventListener('click', guardarCategoria);
 
-            const categoriaData = {
-                IdCategoria: categoriaIdInput.value || 0,
-                Nombre: nombreCategoriaInput.value,
-                IdCategoriaPadre: categoriaPadreSelect.value || null
-            };
-
-            const url = categoriaData.IdCategoria ? API_URLS.categoria.actualizar : API_URLS.categoria.crear;
-            app.mostrarSpinner();
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(categoriaData)
-                });
-                const result = await response.json();
-
-                if (result.Success) {
-                    modal.hide();
-                    Swal.fire('Éxito', 'Categoría guardada correctamente.', 'success');
-                    cargarCategorias(); // Recargar la tabla
-                } else {
-                    Swal.fire('Error', result.Message || 'No se pudo guardar la categoría.', 'error');
-                }
-            } catch (error) {
-                console.error('Error al guardar categoría:', error);
-                Swal.fire('Error', 'Ocurrió un problema de conexión.', 'error');
-            } finally {
-                app.ocultarSpinner();
-            }
-        });
-
-        // Eventos para editar y eliminar (delegación de eventos)
         $('#tabla-categorias tbody').on('click', '.btn-editar', function () {
-            const id = $(this).data('id');
-            abrirModalParaEditar(id);
+            abrirModalParaEditar($(this).data('id'));
         });
 
         $('#tabla-categorias tbody').on('click', '.btn-eliminar', function () {
-            const id = $(this).data('id');
-            eliminarCategoria(id);
+            eliminarCategoria($(this).data('id'));
         });
 
-        // --- FUNCIONES AUXILIARES ---
-
-        async function cargarCategorias() {
-            app.mostrarSpinner();
-            try {
-                const response = await fetch(API_URLS.categoria.listar);
-                const result = await response.json();
-                if (result.Success) {
-                    todasLasCategorias = result.Data || [];
-                    tablaCategorias.clear().rows.add(todasLasCategorias).draw();
-                    actualizarSelectPadre();
-                } else {
-                    Swal.fire('Error', 'No se pudieron cargar las categorías.', 'error');
-                }
-            } catch (error) {
-                console.error('Error al cargar categorías:', error);
-            } finally {
-                app.ocultarSpinner();
-            }
-        }
-
-        function actualizarSelectPadre(idExcluir = null) {
-            categoriaPadreSelect.innerHTML = '<option value="">-- Sin categoría padre --</option>';
-            todasLasCategorias.forEach(cat => {
-                if (cat.IdCategoria !== idExcluir) {
-                    const option = document.createElement('option');
-                    option.value = cat.IdCategoria;
-                    option.textContent = cat.Nombre;
-                    categoriaPadreSelect.appendChild(option);
-                }
-            });
-        }
-
-        async function abrirModalParaEditar(id) {
-            app.mostrarSpinner();
-            try {
-                const response = await fetch(`${API_URLS.categoria.obtenerPorId}?id=${id}`);
-                const result = await response.json();
-                if (result.Success && result.Data) {
-                    const cat = result.Data;
-                    formCategoria.reset();
-                    categoriaIdInput.value = cat.IdCategoria;
-                    nombreCategoriaInput.value = cat.Nombre;
-                    actualizarSelectPadre(cat.IdCategoria); // Excluir la misma categoría de ser su propio padre
-                    categoriaPadreSelect.value = cat.IdCategoriaPadre || '';
-                    modalLabel.textContent = 'Editar Categoría';
-                    modal.show();
-                } else {
-                    Swal.fire('Error', result.Message || 'No se encontró la categoría.', 'error');
-                }
-            } catch (error) {
-                console.error('Error al obtener categoría:', error);
-            } finally {
-                app.ocultarSpinner();
-            }
-        }
-
-        function eliminarCategoria(id) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "No podrás revertir esta acción.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    app.mostrarSpinner();
-                    try {
-                        const response = await fetch(API_URLS.categoria.eliminar, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ IdCategoria: id })
-                        });
-                        const res = await response.json();
-                        if (res.Success) {
-                            Swal.fire('Eliminada', 'La categoría ha sido eliminada.', 'success');
-                            cargarCategorias();
-                        } else {
-                            Swal.fire('Error', res.Message || 'No se pudo eliminar la categoría.', 'error');
-                        }
-                    } catch (error) {
-                        console.error('Error al eliminar categoría:', error);
-                    } finally {
-                        app.ocultarSpinner();
-                    }
-                }
-            });
-        }
-
     });
+
+    async function cargarCategorias() {
+        app.mostrarSpinner();
+        try {
+            const response = await fetch(API_URLS.categoria.listar);
+            const result = await response.json();
+            if (result.Respuesta && !result.Respuesta.Error) {
+                todasLasCategorias = result.Respuesta.Resultado || [];
+                tablaCategorias.clear().rows.add(todasLasCategorias).draw();
+                actualizarSelectPadre();
+            } else {
+                Swal.fire('Error', 'No se pudieron cargar las categorías.', 'error');
+                console.error('Error del handler de categorías:', result.Respuesta.Message);
+            }
+        } catch (error) {
+            console.error('Error de red al cargar categorías:', error);
+        } finally {
+            app.ocultarSpinner();
+        }
+    }
+
+    async function guardarCategoria() {
+        if (!document.getElementById('nombre-categoria').value.trim()) {
+            Swal.fire('Campo requerido', 'El nombre de la categoría es obligatorio.', 'warning');
+            return;
+        }
+
+        const categoriaData = {
+            IdCategoria: document.getElementById('categoria-id').value || 0,
+            Nombre: document.getElementById('nombre-categoria').value,
+            IdCategoriaPadre: document.getElementById('categoria-padre').value || null
+        };
+
+        const url = categoriaData.IdCategoria ? API_URLS.categoria.actualizar : API_URLS.categoria.crear;
+        app.mostrarSpinner();
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(categoriaData)
+            });
+            const result = await response.json();
+
+            if (result.Respuesta && !result.Respuesta.Error) {
+                new bootstrap.Modal(document.getElementById('modal-categoria')).hide();
+                Swal.fire('Éxito', 'Categoría guardada correctamente.', 'success');
+                cargarCategorias();
+            } else {
+                Swal.fire('Error', result.Respuesta.Message || 'No se pudo guardar la categoría.', 'error');
+            }
+        } catch (error) {
+            console.error('Error de red al guardar categoría:', error);
+            Swal.fire('Error', 'Ocurrió un problema de conexión.', 'error');
+        } finally {
+            app.ocultarSpinner();
+        }
+    }
+
+    async function abrirModalParaEditar(id) {
+        app.mostrarSpinner();
+        try {
+            const response = await fetch(`${API_URLS.categoria.obtenerPorId}?id=${id}`);
+            const result = await response.json();
+            if (result.Respuesta && !result.Respuesta.Error) {
+                const cat = result.Respuesta.Resultado[0];
+                document.getElementById('form-categoria').reset();
+                document.getElementById('categoria-id').value = cat.IdCategoria;
+                document.getElementById('nombre-categoria').value = cat.Nombre;
+                actualizarSelectPadre(cat.IdCategoria);
+                document.getElementById('categoria-padre').value = cat.IdCategoriaPadre || '';
+                document.getElementById('modal-categoria-label').textContent = 'Editar Categoría';
+                new bootstrap.Modal(document.getElementById('modal-categoria')).show();
+            } else {
+                Swal.fire('Error', result.Respuesta.Message || 'No se encontró la categoría.', 'error');
+            }
+        } catch (error) {
+            console.error('Error de red al obtener categoría:', error);
+        } finally {
+            app.ocultarSpinner();
+        }
+    }
+
+    function eliminarCategoria(id) {
+        Swal.fire({
+            title: '¿Estás seguro?', text: "No podrás revertir esta acción.", icon: 'warning',
+            showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Sí, eliminar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                app.mostrarSpinner();
+                try {
+                    const response = await fetch(API_URLS.categoria.eliminar, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ IdCategoria: id })
+                    });
+                    const res = await response.json();
+                    if (res.Respuesta && !res.Respuesta.Error) {
+                        Swal.fire('Eliminada', 'La categoría ha sido eliminada.', 'success');
+                        cargarCategorias();
+                    } else {
+                        Swal.fire('Error', res.Respuesta.Message || 'No se pudo eliminar la categoría.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error de red al eliminar categoría:', error);
+                } finally {
+                    app.ocultarSpinner();
+                }
+            }
+        });
+    }
+
+    function actualizarSelectPadre(idExcluir = null) {
+        const select = document.getElementById('categoria-padre');
+        select.innerHTML = '<option value="">-- Sin categoría padre --</option>';
+        todasLasCategorias.forEach(cat => {
+            if (cat.IdCategoria !== idExcluir) {
+                select.add(new Option(cat.Nombre, cat.IdCategoria));
+            }
+        });
+    }
+
 })();

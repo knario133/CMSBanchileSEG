@@ -7,12 +7,7 @@
 
         const modalElement = document.getElementById('modal-rol');
         const modal = new bootstrap.Modal(modalElement);
-        const modalLabel = document.getElementById('modal-rol-label');
-        const formRol = document.getElementById('form-rol');
-        const rolIdInput = document.getElementById('rol-id');
-        const nombreRolInput = document.getElementById('nombre-rol');
 
-        // Inicializar DataTable
         tablaRoles = $('#tabla-roles').DataTable({
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             columns: [
@@ -31,11 +26,10 @@
 
         cargarRoles();
 
-        // --- Eventos ---
         document.getElementById('btn-nuevo-rol').addEventListener('click', () => {
-            formRol.reset();
-            rolIdInput.value = '';
-            modalLabel.textContent = 'Nuevo Rol';
+            document.getElementById('form-rol').reset();
+            document.getElementById('rol-id').value = '';
+            document.getElementById('modal-rol-label').textContent = 'Nuevo Rol';
             modal.show();
         });
 
@@ -54,13 +48,14 @@
         try {
             const response = await fetch(API_URLS.rol.listar);
             const result = await response.json();
-            if (result.Success) {
-                tablaRoles.clear().rows.add(result.Data || []).draw();
+            if (result.Respuesta && !result.Respuesta.Error) {
+                tablaRoles.clear().rows.add(result.Respuesta.Resultado || []).draw();
             } else {
                 Swal.fire('Error', 'No se pudieron cargar los roles.', 'error');
+                console.error("Error handler roles:", result.Respuesta.Message);
             }
         } catch (error) {
-            console.error('Error al cargar roles:', error);
+            console.error('Error de red al cargar roles:', error);
         } finally {
             app.ocultarSpinner();
         }
@@ -88,15 +83,15 @@
             });
             const result = await response.json();
 
-            if (result.Success) {
-                document.getElementById('modal-rol').querySelector('.btn-close').click();
+            if (result.Respuesta && !result.Respuesta.Error) {
+                new bootstrap.Modal(document.getElementById('modal-rol')).hide();
                 Swal.fire('Éxito', 'Rol guardado correctamente.', 'success');
                 cargarRoles();
             } else {
-                Swal.fire('Error', result.Message || 'No se pudo guardar el rol.', 'error');
+                Swal.fire('Error', result.Respuesta.Message || 'No se pudo guardar el rol.', 'error');
             }
         } catch (error) {
-            console.error('Error al guardar rol:', error);
+            console.error('Error de red al guardar rol:', error);
         } finally {
             app.ocultarSpinner();
         }
@@ -107,16 +102,18 @@
         try {
             const response = await fetch(`${API_URLS.rol.obtenerPorId}?id=${id}`);
             const result = await response.json();
-            if (result.Success && result.Data) {
-                const rol = result.Data;
+            if (result.Respuesta && !result.Respuesta.Error) {
+                const rol = result.Respuesta.Resultado[0];
                 document.getElementById('form-rol').reset();
                 document.getElementById('rol-id').value = rol.IdRol;
                 document.getElementById('nombre-rol').value = rol.Nombre;
                 document.getElementById('modal-rol-label').textContent = 'Editar Rol';
                 new bootstrap.Modal(document.getElementById('modal-rol')).show();
+            } else {
+                 Swal.fire('Error', result.Respuesta.Message || 'No se encontró el rol.', 'error');
             }
         } catch(error) {
-            console.error('Error al obtener rol:', error);
+            console.error('Error de red al obtener rol:', error);
         } finally {
             app.ocultarSpinner();
         }
@@ -136,14 +133,14 @@
                         body: JSON.stringify({ IdRol: id })
                     });
                     const res = await response.json();
-                    if (res.Success) {
+                    if (res.Respuesta && !res.Respuesta.Error) {
                         Swal.fire('Eliminado', 'El rol ha sido eliminado.', 'success');
                         cargarRoles();
                     } else {
-                        Swal.fire('Error', res.Message || 'No se pudo eliminar.', 'error');
+                        Swal.fire('Error', res.Respuesta.Message || 'No se pudo eliminar.', 'error');
                     }
                 } catch(error) {
-                    console.error('Error al eliminar rol:', error);
+                    console.error('Error de red al eliminar rol:', error);
                 } finally {
                     app.ocultarSpinner();
                 }
