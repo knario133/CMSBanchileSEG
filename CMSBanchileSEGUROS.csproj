@@ -161,6 +161,20 @@
     <Content Include="Sitios\roles.aspx" />
     <Content Include="Sitios\usuarios.aspx" />
     <Content Include="Web.config" />
+    <Content Include="wwwroot\css\style.css" />
+    <Content Include="wwwroot\img\banchile-corredores-de-seguro-logo.png" />
+    <Content Include="wwwroot\js\apiConfig.js" />
+    <Content Include="wwwroot\js\app.js" />
+    <Content Include="wwwroot\js\categorias.js" />
+    <Content Include="wwwroot\js\configuracion.js" />
+    <Content Include="wwwroot\js\contenido.js" />
+    <Content Include="wwwroot\js\dashboard.js" />
+    <Content Include="wwwroot\js\historial.js" />
+    <Content Include="wwwroot\js\login.js" />
+    <Content Include="wwwroot\js\multimedia.js" />
+    <Content Include="wwwroot\js\portal.js" />
+    <Content Include="wwwroot\js\roles.js" />
+    <Content Include="wwwroot\js\usuarios.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banchile_CMS.designer.cs">

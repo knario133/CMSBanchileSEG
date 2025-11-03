@@ -1,5 +1,6 @@
 <%@ Page Title="Login - CMS Banchile" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="CMSBanchileSEGUROS.Sitios.login" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <meta charset="UTF-8" />
     <style>
         /* Estilos específicos para la página de login */
         body {
