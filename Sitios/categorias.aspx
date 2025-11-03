@@ -33,5 +33,7 @@
             </div>
         </div>
     </div>
+</asp-Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
     <script src='<%= ResolveUrl("~/wwwroot/js/categorias.js") %>'></script>
 </asp:Content>

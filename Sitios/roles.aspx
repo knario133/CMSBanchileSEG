@@ -2,7 +2,27 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <!-- ... (HTML sin cambios) ... -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestión de Roles</h1>
+        <button id="btn-nuevo-rol" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Nuevo Rol</button>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table id="tabla-roles" class="table table-striped table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="modal fade" id="modal-rol" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -15,17 +35,22 @@
                         <input type="hidden" id="rol-id">
                         <div class="mb-3">
                             <label for="nombre-rol" class="form-label">Nombre del Rol</label>
-                            <input type="text" class="form-control" id="nombre-rol"> <!-- 'required' eliminado -->
+                            <input type="text" class="form-control" id="nombre-rol" name="nombre-rol" required>
                         </div>
                         <div class="mb-3">
                             <label for="descripcion-rol" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="descripcion-rol" rows="3"></textarea>
+                            <textarea class="form-control" id="descripcion-rol" name="descripcion-rol" rows="3"></textarea>
                         </div>
                     </form>
                 </div>
-                <!-- ... (footer sin cambios) ... -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btn-guardar-rol" class="btn btn-primary">Guardar</button>
+                </div>
             </div>
         </div>
     </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
     <script src='<%= ResolveUrl("~/wwwroot/js/roles.js") %>'></script>
-</asp-Content>
+</asp:Content>

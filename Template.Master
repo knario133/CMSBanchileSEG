@@ -10,7 +10,7 @@
     <!-- Librerías CSS Locales -->
     <link href="<%: ResolveUrl("~/Librerias/JsBootstrapBundle/bootstrap.min.css") %>" rel="stylesheet" />
     <link href="<%: ResolveUrl("~/Librerias/JsSweetalert2/sweetalert2.min.css") %>" rel="stylesheet" />
-    <link href="<%: ResolveUrl("~/Librerias/FontawesomeFree/fontawesome.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/Librerias/FontawesomeFree/css/all.min.css") %>" rel="stylesheet" />
 
     <!-- DataTables y Quill locales -->
     <link href="<%: ResolveUrl("~/Librerias/JsDatatables/dataTables.bootstrap5.min.css") %>" rel="stylesheet" />
@@ -83,5 +83,6 @@
     <script src="<%: ResolveUrl("~/wwwroot/js/apiConfig.js") %>"></script>
     <script src="<%: ResolveUrl("~/wwwroot/js/app.js") %>"></script>
 
+    <asp:ContentPlaceHolder ID="Scripts" runat="server"></asp:ContentPlaceHolder>
 </body>
 </html>
