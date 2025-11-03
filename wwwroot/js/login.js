@@ -7,9 +7,8 @@
         const usuarioInput = document.getElementById('usuario');
         const contrasenaInput = document.getElementById('contrasena');
 
-        // Redirigir si ya existe una sesión
         if (localStorage.getItem('userSession')) {
-            window.location.href = '/Sitios/admin.aspx';
+            window.location.href = window.appBasePath + 'Sitios/admin.aspx'; // CORRECCIÓN
         }
 
         const handleLogin = async () => {
@@ -26,31 +25,22 @@
             try {
                 const response = await fetch(API_URLS.usuario.login, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ Usuario: usuario, Contrasena: contrasena })
                 });
 
                 const result = await response.json();
 
-                // --- MODIFICACIÓN CLAVE ---
-                // Validar la nueva estructura de la respuesta
                 if (result.Respuesta && !result.Respuesta.Error && result.Respuesta.Resultado && result.Respuesta.Resultado.length > 0) {
 
                     const userData = result.Respuesta.Resultado[0];
-
-                    // Guardar sesión en localStorage
                     localStorage.setItem('userSession', JSON.stringify(userData));
 
                     Swal.fire({
-                        title: '¡Bienvenido!',
-                        text: 'Inicio de sesión exitoso.',
-                        icon: 'success',
-                        timer: 1500,
-                        showConfirmButton: false
+                        title: '¡Bienvenido!', text: 'Inicio de sesión exitoso.', icon: 'success',
+                        timer: 1500, showConfirmButton: false
                     }).then(() => {
-                        window.location.href = '/Sitios/admin.aspx';
+                        window.location.href = window.appBasePath + 'Sitios/admin.aspx'; // CORRECCIÓN
                     });
 
                 } else {
@@ -59,7 +49,7 @@
 
             } catch (error) {
                 console.error('Error en el proceso de login:', error);
-                Swal.fire('Error', 'Ocurrió un problema al intentar iniciar sesión. Por favor, inténtelo de nuevo más tarde.', 'error');
+                Swal.fire('Error', 'Ocurrió un problema al intentar iniciar sesión.', 'error');
             } finally {
                 app.ocultarSpinner();
             }
@@ -67,17 +57,8 @@
 
         loginButton.addEventListener('click', handleLogin);
 
-        // Permitir login con la tecla Enter
-        contrasenaInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                handleLogin();
-            }
-        });
-        usuarioInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                handleLogin();
-            }
-        });
+        contrasenaInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+        usuarioInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     });
 
 })();

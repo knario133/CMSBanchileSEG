@@ -12,12 +12,7 @@
             <table id="tabla-usuarios" class="table table-striped table-hover" style="width:100%">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Nombre Completo</th>
-                        <th>Email</th>
-                        <th>Activo</th>
-                        <th>Acciones</th>
+                        <th>ID</th> <th>Usuario</th> <th>Nombre Completo</th> <th>Email</th> <th>Activo</th> <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -25,7 +20,6 @@
         </div>
     </div>
 
-    <!-- Modal para Crear/Editar Usuario -->
     <div class="modal fade" id="modal-usuario" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -38,33 +32,15 @@
                         <input type="hidden" id="usuario-id">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="usuario" class="form-label">Usuario (Login)</label>
-                                    <input type="text" class="form-control" id="usuario" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nombre-completo" class="form-label">Nombre Completo</label>
-                                    <input type="text" class="form-control" id="nombre-completo" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="contrasena" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="contrasena">
-                                    <small class="form-text text-muted">Dejar en blanco para no cambiar la contraseña.</small>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" id="activo" checked>
-                                    <label class="form-check-label" for="activo">Usuario Activo</label>
-                                </div>
+                                <div class="mb-3"><label for="usuario" class="form-label">Usuario (Login)</label><input type="text" class="form-control" id="usuario" required></div>
+                                <div class="mb-3"><label for="nombre-completo" class="form-label">Nombre Completo</label><input type="text" class="form-control" id="nombre-completo" required></div>
+                                <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" class="form-control" id="email" required></div>
+                                <div class="mb-3"><label for="contrasena" class="form-label">Contraseña</label><input type="password" class="form-control" id="contrasena"><small class="form-text text-muted">Dejar en blanco para no cambiar.</small></div>
+                                <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="activo" checked><label class="form-check-label" for="activo">Usuario Activo</label></div>
                             </div>
                             <div class="col-md-6">
                                 <h5>Roles Asignados</h5>
-                                <div id="roles-container">
-                                    <!-- Checkboxes de roles se cargarán aquí -->
-                                </div>
+                                <div id="roles-container"></div>
                             </div>
                         </div>
                     </form>
@@ -77,5 +53,5 @@
         </div>
     </div>
 
-    <script src="/wwwroot/js/usuarios.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/usuarios.js") %>'></script>
 </asp:Content>

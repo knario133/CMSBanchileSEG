@@ -22,7 +22,6 @@
         </div>
     </div>
 
-    <!-- Modal para Crear/Editar Rol -->
     <div class="modal fade" id="modal-rol" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -47,5 +46,5 @@
         </div>
     </div>
 
-    <script src="/wwwroot/js/roles.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/roles.js") %>'></script>
 </asp:Content>

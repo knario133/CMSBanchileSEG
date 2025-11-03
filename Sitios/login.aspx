@@ -1,6 +1,5 @@
 <%@ Page Title="Login - CMS Banchile" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="CMSBanchileSEGUROS.Sitios.login" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <meta charset="UTF-8" />
     <style>
         /* Estilos específicos para la página de login */
         body {
@@ -30,7 +29,7 @@
         <div class="card login-card">
             <div class="card-body">
                 <div class="text-center">
-                    <img src="/wwwroot/img/banchile-corredores-de-seguro-logo.png" alt="Logo Banchile" class="login-logo" />
+                    <img src='<%= ResolveUrl("~/wwwroot/img/banchile-corredores-de-seguro-logo.png") %>' alt="Logo Banchile" class="login-logo" />
                 </div>
                 <h5 class="card-title text-center mb-4">Inicio de Sesión</h5>
 
@@ -54,5 +53,5 @@
     </div>
 
     <!-- Script específico para la lógica de login -->
-    <script src="/wwwroot/js/login.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/login.js") %>'></script>
 </asp:Content>

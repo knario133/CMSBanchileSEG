@@ -18,25 +18,18 @@
      */
     function setupUIAndSecurity() {
         if (isPublicPage) {
-            // Ocultar la navbar principal en páginas públicas
             if (mainNavbar) mainNavbar.style.display = 'none';
-            // Quitar el padding del body en páginas públicas
             document.body.style.paddingTop = '0';
         } else {
-            // Es una página privada, verificar sesión
             if (!userSession) {
                 console.log('Usuario no autenticado. Redirigiendo a login...');
-                window.location.href = '/Sitios/login.aspx';
-                return; // Detener ejecución para evitar mostrar la página
+                window.location.href = window.appBasePath + 'Sitios/login.aspx'; // CORRECCIÓN
+                return;
             }
-            // Si hay sesión, mostrar la navbar y el nombre de usuario
             if (mainNavbar) mainNavbar.style.display = 'flex';
             if (usernameDisplay) usernameDisplay.textContent = userSession.NombreCompleto || 'Usuario';
         }
     }
-
-
-    // --- GESTIÓN DEL SPINNER DE CARGA ---
 
     /** Muestra el overlay de carga. */
     function mostrarSpinner() {
@@ -48,12 +41,9 @@
         if (loadingOverlay) loadingOverlay.style.display = 'none';
     }
 
-    // --- LÓGICA DE INICIALIZACIÓN ---
-
     document.addEventListener('DOMContentLoaded', function () {
         setupUIAndSecurity();
 
-        // Manejar el logout
         if (logoutButton) {
             logoutButton.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -67,14 +57,13 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         localStorage.removeItem('userSession');
-                        window.location.href = '/Sitios/login.aspx';
+                        window.location.href = window.appBasePath + 'Sitios/login.aspx'; // CORRECCIÓN
                     }
                 });
             });
         }
     });
 
-    // Exponer funciones globales para ser usadas en otros scripts
     window.app = {
         mostrarSpinner,
         ocultarSpinner,

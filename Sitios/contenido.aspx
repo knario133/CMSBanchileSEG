@@ -1,10 +1,8 @@
 <%@ Page Title="Gestión de Contenido - CMS Banchile" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="contenido.aspx.cs" Inherits="CMSBanchileSEGUROS.Sitios.contenido" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <!-- Estilos para Quill y la página de contenido -->
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <!-- Vista de Listado de Contenidos -->
     <div id="vista-listado">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Gestión de Contenido</h1>
@@ -18,19 +16,13 @@
                         <label for="filtro-categoria" class="form-label">Filtrar por Categoría:</label>
                         <select id="filtro-categoria" class="form-select">
                             <option value="">-- Todas las categorías --</option>
-                            <!-- Opciones cargadas dinámicamente -->
                         </select>
                     </div>
                 </div>
                 <table id="tabla-contenidos" class="table table-striped table-hover" style="width:100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Categoría</th>
-                            <th>Estado</th>
-                            <th>Fecha Creación</th>
-                            <th>Acciones</th>
+                            <th>ID</th> <th>Título</th> <th>Categoría</th> <th>Estado</th> <th>Fecha Creación</th> <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -39,12 +31,10 @@
         </div>
     </div>
 
-    <!-- Vista de Edición de Contenido -->
     <div id="vista-editor" style="display: none;">
         <h1 id="editor-titulo">Nuevo Contenido</h1>
         <form id="form-contenido" class="mt-4">
             <input type="hidden" id="contenido-id">
-
             <div class="row">
                 <div class="col-md-8">
                     <div class="mb-3">
@@ -54,7 +44,6 @@
                     <div class="mb-3">
                         <label for="cuerpo-html" class="form-label">Cuerpo del Contenido</label>
                         <div id="editor-quill" style="height: 300px;"></div>
-                        <input type="hidden" id="cuerpo-html">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -63,9 +52,7 @@
                             <h5 class="card-title">Publicación</h5>
                             <div class="mb-3">
                                 <label for="categoria" class="form-label">Categoría</label>
-                                <select id="categoria" class="form-select" required>
-                                    <!-- Opciones cargadas dinámicamente -->
-                                </select>
+                                <select id="categoria" class="form-select" required></select>
                             </div>
                             <div class="mb-3">
                                 <label for="estado" class="form-label">Estado</label>
@@ -85,5 +72,5 @@
         </form>
     </div>
 
-    <script src="/wwwroot/js/contenido.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/contenido.js") %>'></script>
 </asp:Content>

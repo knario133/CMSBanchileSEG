@@ -5,8 +5,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                <img src="/wwwroot/img/banchile-corredores-de-seguro-logo.png" alt="Logo" style="max-height: 50px;" class="me-3">
+            <a href='<%= ResolveUrl("~/Default.aspx") %>' class="d-flex align-items-center text-dark text-decoration-none">
+                <img src='<%= ResolveUrl("~/wwwroot/img/banchile-corredores-de-seguro-logo.png") %>' alt="Logo" style="max-height: 50px;" class="me-3">
                 <span class="fs-4">Portal de Contenidos</span>
             </a>
         </header>
@@ -38,5 +38,5 @@
         </div>
     </div>
 
-    <script src="/wwwroot/js/portal.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/portal.js") %>'></script>
 </asp:Content>

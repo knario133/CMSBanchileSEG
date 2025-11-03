@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Template.master.cs" Inherits="CMSBanchileSEGUROS.Template" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Template.master.cs" Inherits="CMSBanchileSEGUROS.Template" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +15,7 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <!-- Estilos personalizados -->
-    <link href="/wwwroot/css/style.css" rel="stylesheet">
+    <link href='<%= ResolveUrl("~/wwwroot/css/style.css") %>' rel="stylesheet">
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -26,27 +26,27 @@
         <!-- Navbar Superior Unificada -->
         <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/Sitios/admin.aspx">
-                    <img src="/wwwroot/img/banchile-corredores-de-seguro-logo.png" alt="Logo Banchile" style="max-height: 40px;">
+                <a class="navbar-brand" href='<%= ResolveUrl("~/Sitios/admin.aspx") %>'>
+                    <img src='<%= ResolveUrl("~/wwwroot/img/banchile-corredores-de-seguro-logo.png") %>' alt="Logo Banchile" style="max-height: 40px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/Sitios/admin.aspx">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Sitios/contenido.aspx">Contenido</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Sitios/categorias.aspx">Categorías</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Sitios/multimedia.aspx">Multimedia</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Sitios/usuarios.aspx">Usuarios</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Sitios/roles.aspx">Roles</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Sitios/historial.aspx">Historial</a></li>
+                        <li class="nav-item"><a class="nav-link" href='<%= ResolveUrl("~/Sitios/admin.aspx") %>'>Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href='<%= ResolveUrl("~/Sitios/contenido.aspx") %>'>Contenido</a></li>
+                        <li class="nav-item"><a class="nav-link" href='<%= ResolveUrl("~/Sitios/categorias.aspx") %>'>Categorías</a></li>
+                        <li class="nav-item"><a class="nav-link" href='<%= ResolveUrl("~/Sitios/multimedia.aspx") %>'>Multimedia</a></li>
+                        <li class="nav-item"><a class="nav-link" href='<%= ResolveUrl("~/Sitios/usuarios.aspx") %>'>Usuarios</a></li>
+                        <li class="nav-item"><a class="nav-link" href='<%= ResolveUrl("~/Sitios/roles.aspx") %>'>Roles</a></li>
+                        <li class="nav-item"><a class="nav-link" href='<%= ResolveUrl("~/Sitios/historial.aspx") %>'>Historial</a></li>
                     </ul>
                     <div class="d-flex align-items-center">
                         <span class="navbar-text me-3">
                             Bienvenido, <strong id="username-display">Usuario</strong>
                         </span>
-                        <a href="/Sitios/logout.aspx" id="logout-button" class="btn btn-outline-light"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a>
+                        <a href='<%= ResolveUrl("~/Sitios/logout.aspx") %>' id="logout-button" class="btn btn-outline-light"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a>
                     </div>
                 </div>
             </div>
@@ -75,9 +75,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
+    <!-- Definición de la ruta base -->
+    <script type="text/javascript">
+        window.appBasePath = '<%= ResolveUrl("~/") %>';
+    </script>
+
     <!-- Scripts personalizados -->
-    <script src="/wwwroot/js/apiConfig.js"></script>
-    <script src="/wwwroot/js/app.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/apiConfig.js") %>'></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/app.js") %>'></script>
 
 </body>
 </html>
