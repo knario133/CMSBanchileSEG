@@ -36,6 +36,10 @@
                             <label for="nombre-rol" class="form-label">Nombre del Rol</label>
                             <input type="text" class="form-control" id="nombre-rol" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="descripcion-rol" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion-rol" rows="3"></textarea>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">

@@ -8,25 +8,15 @@
 
         const modalElement = document.getElementById('modal-categoria');
         const modal = new bootstrap.Modal(modalElement);
-        const modalLabel = document.getElementById('modal-categoria-label');
-        const formCategoria = document.getElementById('form-categoria');
-        const categoriaIdInput = document.getElementById('categoria-id');
-        const nombreCategoriaInput = document.getElementById('nombre-categoria');
-        const categoriaPadreSelect = document.getElementById('categoria-padre');
 
         tablaCategorias = $('#tabla-categorias').DataTable({
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             responsive: true,
             columns: [
-                { data: 'IdCategoria' },
-                { data: 'Nombre' },
+                { data: 'IdCategoria' }, { data: 'Nombre' },
                 {
                     data: 'IdCategoriaPadre',
-                    render: function(data, type, row) {
-                        if (!data) return '<em>Ninguna</em>';
-                        const padre = todasLasCategorias.find(c => c.IdCategoria === data);
-                        return padre ? padre.Nombre : 'Desconocido';
-                    }
+                    render: (data) => (todasLasCategorias.find(c => c.IdCategoria === data) || {}).Nombre || '<em>Ninguna</em>'
                 },
                 {
                     data: 'IdCategoria',
@@ -42,23 +32,17 @@
         cargarCategorias();
 
         document.getElementById('btn-nueva-categoria').addEventListener('click', function () {
-            formCategoria.reset();
-            categoriaIdInput.value = '';
-            modalLabel.textContent = 'Nueva Categoría';
+            document.getElementById('form-categoria').reset();
+            document.getElementById('categoria-id').value = '';
+            document.getElementById('modal-categoria-label').textContent = 'Nueva Categoría';
             actualizarSelectPadre();
             modal.show();
         });
 
         document.getElementById('btn-guardar-categoria').addEventListener('click', guardarCategoria);
 
-        $('#tabla-categorias tbody').on('click', '.btn-editar', function () {
-            abrirModalParaEditar($(this).data('id'));
-        });
-
-        $('#tabla-categorias tbody').on('click', '.btn-eliminar', function () {
-            eliminarCategoria($(this).data('id'));
-        });
-
+        $('#tabla-categorias tbody').on('click', '.btn-editar', function () { abrirModalParaEditar($(this).data('id')); });
+        $('#tabla-categorias tbody').on('click', '.btn-eliminar', function () { eliminarCategoria($(this).data('id')); });
     });
 
     async function cargarCategorias() {
@@ -88,12 +72,13 @@
         }
 
         const categoriaData = {
-            IdCategoria: document.getElementById('categoria-id').value || 0,
-            Nombre: document.getElementById('nombre-categoria').value,
-            IdCategoriaPadre: document.getElementById('categoria-padre').value || null
+            idCategoria: document.getElementById('categoria-id').value || 0,
+            nombre: document.getElementById('nombre-categoria').value,
+            descripcion: document.getElementById('descripcion-categoria').value, // CORRECCIÓN: Añadir
+            idCategoriaPadre: document.getElementById('categoria-padre').value || null
         };
 
-        const url = categoriaData.IdCategoria ? API_URLS.categoria.actualizar : API_URLS.categoria.crear;
+        const url = categoriaData.idCategoria != 0 ? API_URLS.categoria.actualizar : API_URLS.categoria.crear;
         app.mostrarSpinner();
 
         try {
@@ -129,6 +114,7 @@
                 document.getElementById('form-categoria').reset();
                 document.getElementById('categoria-id').value = cat.IdCategoria;
                 document.getElementById('nombre-categoria').value = cat.Nombre;
+                document.getElementById('descripcion-categoria').value = cat.Descripcion; // CORRECCIÓN: Añadir
                 actualizarSelectPadre(cat.IdCategoria);
                 document.getElementById('categoria-padre').value = cat.IdCategoriaPadre || '';
                 document.getElementById('modal-categoria-label').textContent = 'Editar Categoría';
@@ -154,7 +140,7 @@
                     const response = await fetch(API_URLS.categoria.eliminar, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ IdCategoria: id })
+                        body: JSON.stringify({ idCategoria: id }) // CORRECCIÓN
                     });
                     const res = await response.json();
                     if (res.Respuesta && !res.Respuesta.Error) {

@@ -12,7 +12,7 @@
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             columns: [
                 { data: 'IdRol' },
-                { data: 'NombreRol' }, // CORRECCIÓN para DataTables
+                { data: 'NombreRol' },
                 {
                     data: 'IdRol',
                     render: data => `
@@ -35,30 +35,12 @@
 
         document.getElementById('btn-guardar-rol').addEventListener('click', guardarRol);
 
-        $('#tabla-roles tbody').on('click', '.btn-editar', function () {
-            abrirModalEditar($(this).data('id'));
-        });
-        $('#tabla-roles tbody').on('click', '.btn-eliminar', function () {
-            eliminarRol($(this).data('id'));
-        });
+        $('#tabla-roles tbody').on('click', '.btn-editar', function () { abrirModalEditar($(this).data('id')); });
+        $('#tabla-roles tbody').on('click', '.btn-eliminar', function () { eliminarRol($(this).data('id')); });
     });
 
     async function cargarRoles() {
-        app.mostrarSpinner();
-        try {
-            const response = await fetch(API_URLS.rol.listar);
-            const result = await response.json();
-            if (result.Respuesta && !result.Respuesta.Error) {
-                tablaRoles.clear().rows.add(result.Respuesta.Resultado || []).draw();
-            } else {
-                Swal.fire('Error', 'No se pudieron cargar los roles.', 'error');
-                console.error("Error handler roles:", result.Respuesta.Message);
-            }
-        } catch (error) {
-            console.error('Error de red al cargar roles:', error);
-        } finally {
-            app.ocultarSpinner();
-        }
+        // ... (sin cambios de payload) ...
     }
 
     async function guardarRol() {
@@ -68,11 +50,12 @@
         }
 
         const rolData = {
-            IdRol: document.getElementById('rol-id').value || 0,
-            NombreRol: document.getElementById('nombre-rol').value // CORRECCIÓN
+            idRol: document.getElementById('rol-id').value || 0,
+            nombreRol: document.getElementById('nombre-rol').value,
+            descripcion: document.getElementById('descripcion-rol').value // CORRECCIÓN: Añadir
         };
 
-        const url = rolData.IdRol ? API_URLS.rol.actualizar : API_URLS.rol.crear;
+        const url = rolData.idRol != 0 ? API_URLS.rol.actualizar : API_URLS.rol.crear;
         app.mostrarSpinner();
 
         try {
@@ -106,7 +89,8 @@
                 const rol = result.Respuesta.Resultado[0];
                 document.getElementById('form-rol').reset();
                 document.getElementById('rol-id').value = rol.IdRol;
-                document.getElementById('nombre-rol').value = rol.NombreRol; // CORRECCIÓN
+                document.getElementById('nombre-rol').value = rol.NombreRol;
+                document.getElementById('descripcion-rol').value = rol.Descripcion; // CORRECCIÓN: Añadir
                 document.getElementById('modal-rol-label').textContent = 'Editar Rol';
                 new bootstrap.Modal(document.getElementById('modal-rol')).show();
             } else {
@@ -130,7 +114,7 @@
                     const response = await fetch(API_URLS.rol.eliminar, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ IdRol: id })
+                        body: JSON.stringify({ idRol: id }) // CORRECCIÓN
                     });
                     const res = await response.json();
                     if (res.Respuesta && !res.Respuesta.Error) {
@@ -148,4 +132,21 @@
         });
     }
 
+    async function cargarRoles() {
+        app.mostrarSpinner();
+        try {
+            const response = await fetch(API_URLS.rol.listar);
+            const result = await response.json();
+            if (result.Respuesta && !result.Respuesta.Error) {
+                tablaRoles.clear().rows.add(result.Respuesta.Resultado || []).draw();
+            } else {
+                Swal.fire('Error', 'No se pudieron cargar los roles.', 'error');
+                console.error("Error handler roles:", result.Respuesta.Message);
+            }
+        } catch (error) {
+            console.error('Error de red al cargar roles:', error);
+        } finally {
+            app.ocultarSpinner();
+        }
+    }
 })();

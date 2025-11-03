@@ -8,7 +8,7 @@
         const contrasenaInput = document.getElementById('contrasena');
 
         if (localStorage.getItem('userSession')) {
-            window.location.href = window.appBasePath + 'Sitios/admin.aspx'; // CORRECCIÓN
+            window.location.href = window.appBasePath + 'Sitios/admin.aspx';
         }
 
         const handleLogin = async () => {
@@ -26,7 +26,7 @@
                 const response = await fetch(API_URLS.usuario.login, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ Usuario: usuario, Contrasena: contrasena })
+                    body: JSON.stringify({ usuario: usuario, password: contrasena }) // CORRECCIÓN
                 });
 
                 const result = await response.json();
@@ -40,7 +40,7 @@
                         title: '¡Bienvenido!', text: 'Inicio de sesión exitoso.', icon: 'success',
                         timer: 1500, showConfirmButton: false
                     }).then(() => {
-                        window.location.href = window.appBasePath + 'Sitios/admin.aspx'; // CORRECCIÓN
+                        window.location.href = window.appBasePath + 'Sitios/admin.aspx';
                     });
 
                 } else {
