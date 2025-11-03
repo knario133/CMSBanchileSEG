@@ -12,46 +12,40 @@ namespace CMSBanchileSEGUROS
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            try
+            try{
+            // Leer el cuerpo de la solicitud
+            string jsonBody;
+            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
             {
-                string jsonBody;
-                using (var reader = new StreamReader(context.Request.InputStream))
-                {
-                    jsonBody = reader.ReadToEnd();
-                }
-
-                IN_Handler_usp_CMS_HistorialContenido_Registrar EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_HistorialContenido_Registrar>(jsonBody);
-
-                RSP_Handler_usp_CMS_HistorialContenido_Registrar respuestaServicio = new RSP_Handler_usp_CMS_HistorialContenido_Registrar();
-                try
-                {
-                    var instancia = new OperacionesBD();
-                    respuestaServicio.Respuesta = instancia.usp_CMS_HistorialContenido_Registrar(
-                        EntradaServicioRest.idContenido,
-                        EntradaServicioRest.idUsuario,
-                        EntradaServicioRest.comentario
-                    );
-                    respuestaServicio.CodigoRespuesta = "200";
-                    respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
-                }
-                catch (Exception ex)
-                {
+                jsonBody = reader.ReadToEnd();
+            }
+            // Variables de entrada a Mapear
+            IN_Handler_usp_CMS_HistorialContenido_Registrar EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_HistorialContenido_Registrar>(jsonBody);
+            //Llamada a metodo
+            
+            RSP_Handler_usp_CMS_HistorialContenido_Registrar respuestaServicio = new RSP_Handler_usp_CMS_HistorialContenido_Registrar();
+            try{
+            var instancia = new OperacionesBD();
+respuestaServicio.Respuesta = instancia.usp_CMS_HistorialContenido_Registrar(EntradaServicioRest.idContenido, EntradaServicioRest.idUsuario, EntradaServicioRest.comentario);
+            respuestaServicio.CodigoRespuesta = "200";
+            respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
+            }
+            catch (Exception ex){
                     respuestaServicio.CodigoRespuesta = "500";
                     respuestaServicio.GlosaRespuesta = $"Error al procesar el método: {ex.Message}";
                 }
-
-                string jsonString = JsonConvert.SerializeObject(respuestaServicio);
-                context.Response.Write(jsonString);
+            string jsonString = JsonConvert.SerializeObject(respuestaServicio);
+            context.Response.Write(jsonString);
             }
             catch (Exception ex)
-            {
-                context.Response.StatusCode = 500;
-                context.Response.Write(JsonConvert.SerializeObject(new
-                {
-                    CodigoRespuesta = "500",
-                    GlosaRespuesta = $"Error inesperado: {ex.Message}"
-                }));
-            }
+                        {
+                            context.Response.StatusCode = 500;
+                            context.Response.Write(JsonConvert.SerializeObject(new
+                            {
+                                CodigoRespuesta = "500",
+                                GlosaRespuesta = $"Error inesperado: {ex.Message}"
+                            }));
+                        }
         }
 
         public bool IsReusable
@@ -61,17 +55,14 @@ namespace CMSBanchileSEGUROS
 
         public class IN_Handler_usp_CMS_HistorialContenido_Registrar
         {
+            
+ public int idContenido { get; set; }
+ public int idUsuario { get; set; }
  public string comentario { get; set; }
         }
 
         public class RSP_Handler_usp_CMS_HistorialContenido_Registrar
         {
-            public string CodigoRespuesta { get; set; }
-            public string GlosaRespuesta { get; set; }
- public OperacionesBD.Rsp_usp_CMS_HistorialContenido_Registrar Respuesta { get; set; }
-        }
-    }
-}
             public string CodigoRespuesta { get; set; }
             public string GlosaRespuesta { get; set; }
             
