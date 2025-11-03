@@ -1,9 +1,9 @@
-(function() {
+(function () {
     'use strict';
 
     let tablaHistorial;
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const filtroContenidoInput = document.getElementById('filtro-contenido');
         const btnFiltrar = document.getElementById('btn-filtrar');
 
@@ -11,67 +11,63 @@
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
             responsive: true,
             columns: [
-                { data: 'IdHistorial' }, // CORRECCIÓN
+                { data: 'IdHistorialContenido' },
                 { data: 'IdContenido' },
-                { data: 'TipoAccion' }, // Asumido
+                { data: 'TipoAccion' },
                 {
-                    data: 'FechaCambio', // CORRECCIÓN
-                    render: (data) => new Date(data).toLocaleString()
+                    data: 'FechaAccion',
+                    render: data => data ? new Date(data).toLocaleString() : ''
                 },
-                { data: 'NombreUsuario' }, // Asumido
+                { data: 'NombreUsuario' },
                 {
                     data: 'Detalles',
-                    render: (data) => `<pre style="white-space: pre-wrap; word-break: break-all;">${data || ''}</pre>`
+                    render: data => `<pre class="mb-0" style="white-space: pre-wrap; word-break: break-word;">${data || ''}</pre>`
                 }
             ],
             order: [[3, 'desc']]
         });
 
         btnFiltrar.addEventListener('click', () => cargarHistorial(filtroContenidoInput.value));
-        filtroContenidoInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') cargarHistorial(filtroContenidoInput.value);
+        filtroContenidoInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                cargarHistorial(filtroContenidoInput.value);
+            }
         });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const idContenido = urlParams.get('idContenido');
-        if (idContenido) {
-            filtroContenidoInput.value = idContenido;
-            cargarHistorial(idContenido);
-        }
     });
 
     async function cargarHistorial(idContenido) {
-        if (!idContenido || isNaN(idContenido)) {
+        if (!idContenido) {
             tablaHistorial.clear().draw();
             Swal.fire({
-                title: 'ID de Contenido Inválido',
-                text: 'Por favor, ingrese un ID numérico de contenido para ver su historial.',
-                icon: 'info'
+                title: 'Ingrese un ID',
+                text: 'Por favor, ingrese un ID de contenido para ver su historial.',
+                icon: 'info',
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false
             });
             return;
         }
 
         app.mostrarSpinner();
-        const url = `${API_URLS.historial.listarPorContenido}?idContenido=${idContenido}`;
-
         try {
-            const response = await fetch(url);
+            const response = await app.apiFetch('Historial - Listar por Contenido', `${API_URLS.historial.listarPorContenido}?idContenido=${idContenido}`);
             const result = await response.json();
             if (result.Respuesta && !result.Respuesta.Error) {
-                const data = result.Respuesta.Resultado || [];
-                tablaHistorial.clear().rows.add(data).draw();
-                 if (data.length === 0) {
-                     Swal.fire('Sin resultados', 'No se encontró historial para el ID de contenido proporcionado.', 'info');
-                 }
+                const registros = result.Respuesta.Resultado || [];
+                tablaHistorial.clear().rows.add(registros).draw();
+                if (!registros.length) {
+                    Swal.fire('Sin resultados', 'No se encontró historial para el ID proporcionado.', 'info');
+                }
             } else {
-                Swal.fire('Error', `No se pudo cargar el historial: ${result.Respuesta.Message}`, 'error');
-                console.error("Error handler historial:", result.Respuesta.Message);
+                Swal.fire('Error', result.Respuesta?.Message || 'No se pudo cargar el historial.', 'error');
             }
         } catch (error) {
-            console.error('Error de red al cargar historial:', error);
+            app.logException('Historial - cargarHistorial', error);
+            Swal.fire('Error', 'Ocurrió un problema al consultar el historial.', 'error');
         } finally {
             app.ocultarSpinner();
         }
     }
-
 })();

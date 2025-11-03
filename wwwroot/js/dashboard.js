@@ -2,57 +2,51 @@
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function () {
-
         const totalContenidosEl = document.getElementById('total-contenidos');
         const totalUsuariosEl = document.getElementById('total-usuarios');
         const totalCategoriasEl = document.getElementById('total-categorias');
         const totalMultimediaEl = document.getElementById('total-multimedia');
 
-        const fetchData = async (url) => {
+        async function fetchData(nombre, url) {
             try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-
+                const response = await app.apiFetch(nombre, url);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
                 const result = await response.json();
-
                 if (result.Respuesta && !result.Respuesta.Error) {
                     return result.Respuesta.Resultado || [];
-                } else {
-                    console.error(`Error en la respuesta de ${url}:`, result.Respuesta.Message);
-                    return [];
                 }
+                throw new Error(result.Respuesta?.Message || 'Respuesta inválida');
             } catch (error) {
-                console.error(`Fallo al obtener datos de ${url}:`, error);
+                app.logException(`Dashboard - ${nombre}`, error);
                 return [];
             }
-        };
+        }
 
-        const cargarEstadisticas = async () => {
-            const promesas = [
-                fetchData(API_URLS.contenido.listar),
-                fetchData(API_URLS.usuario.listar),
-                fetchData(API_URLS.categoria.listar),
-                fetchData(API_URLS.multimedia.listar)
-            ];
+        async function cargarEstadisticas() {
+            const [contenidos, usuarios, categorias, multimedia] = await Promise.all([
+                fetchData('Dashboard - Contenidos', API_URLS.contenido.listar),
+                fetchData('Dashboard - Usuarios', API_URLS.usuario.listar),
+                fetchData('Dashboard - Categorías', API_URLS.categoria.listar),
+                fetchData('Dashboard - Multimedia', API_URLS.multimedia.listar)
+            ]);
 
-            try {
-                const [contenidos, usuarios, categorias, multimedia] = await Promise.all(promesas);
-
-                const contenidosPublicados = contenidos.filter(c => c.Estado === 'Publicado').length;
-
-                totalContenidosEl.textContent = contenidosPublicados;
-                totalUsuariosEl.textContent = usuarios.length;
-                totalCategoriasEl.textContent = categorias.length;
-                totalMultimediaEl.textContent = multimedia.length;
-
-            } catch (error) {
-                console.error("Error cargando estadísticas del dashboard:", error);
-                Swal.fire('Error', 'No se pudieron cargar las estadísticas del dashboard.', 'error');
-                [totalContenidosEl, totalUsuariosEl, totalCategoriasEl, totalMultimediaEl].forEach(el => el.textContent = 'Error');
+            if (totalContenidosEl) {
+                const publicados = contenidos.filter(c => (c.Estado || c.estado) === 'Publicado').length;
+                totalContenidosEl.textContent = publicados;
             }
-        };
+            if (totalUsuariosEl) {
+                totalUsuariosEl.textContent = usuarios.length;
+            }
+            if (totalCategoriasEl) {
+                totalCategoriasEl.textContent = categorias.length;
+            }
+            if (totalMultimediaEl) {
+                totalMultimediaEl.textContent = multimedia.length;
+            }
+        }
 
         cargarEstadisticas();
     });
-
 })();

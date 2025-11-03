@@ -41,6 +41,59 @@
         if (loadingOverlay) loadingOverlay.style.display = 'none';
     }
 
+    function logRestCall(name, url, options) {
+        const safeOptions = options ? { ...options } : {};
+        let parsedBody = null;
+        if (safeOptions.body) {
+            try {
+                parsedBody = JSON.parse(safeOptions.body);
+            } catch (error) {
+                parsedBody = safeOptions.body;
+            }
+        }
+
+        const logData = {
+            url,
+            method: safeOptions.method || 'GET',
+            headers: safeOptions.headers || {},
+        };
+
+        if (parsedBody !== null && parsedBody !== undefined) {
+            logData.body = parsedBody;
+        }
+
+        console.groupCollapsed(`REST ➜ ${name}`);
+        console.log('Request', logData);
+        console.groupEnd();
+    }
+
+    async function apiFetch(name, url, options = {}) {
+        logRestCall(name, url, options);
+
+        try {
+            const response = await fetch(url, options);
+            console.groupCollapsed(`REST ⇦ ${name}`);
+            console.log('Status', `${response.status} ${response.statusText}`);
+            try {
+                const preview = await response.clone().json();
+                console.log('Response body', preview);
+            } catch (error) {
+                console.log('Response body', 'No JSON body or parse error');
+            }
+            console.groupEnd();
+            return response;
+        } catch (error) {
+            logException(`REST ${name}`, error);
+            throw error;
+        }
+    }
+
+    function logException(context, error) {
+        console.group(`❌ Excepción en ${context}`);
+        console.error(error);
+        console.groupEnd();
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         setupUIAndSecurity();
 
@@ -67,7 +120,9 @@
     window.app = {
         mostrarSpinner,
         ocultarSpinner,
-        userSession
+        userSession,
+        apiFetch,
+        logException
     };
 
 })();

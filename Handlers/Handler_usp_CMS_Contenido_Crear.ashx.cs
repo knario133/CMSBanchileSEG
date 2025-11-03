@@ -12,40 +12,49 @@ namespace CMSBanchileSEGUROS
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            try{
-            // Leer el cuerpo de la solicitud
-            string jsonBody;
-            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
+            try
             {
-                jsonBody = reader.ReadToEnd();
-            }
-            // Variables de entrada a Mapear
-            IN_Handler_usp_CMS_Contenido_Crear EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Contenido_Crear>(jsonBody);
-            //Llamada a metodo
-            
-            RSP_Handler_usp_CMS_Contenido_Crear respuestaServicio = new RSP_Handler_usp_CMS_Contenido_Crear();
-            try{
-            var instancia = new OperacionesBD();
-respuestaServicio.Respuesta = instancia.usp_CMS_Contenido_Crear(EntradaServicioRest.titulo, EntradaServicioRest.cuerpoHTML, EntradaServicioRest.idCategoria, EntradaServicioRest.estado, EntradaServicioRest.idUsuarioAutor, EntradaServicioRest.esDestacado);
-            respuestaServicio.CodigoRespuesta = "200";
-            respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
-            }
-            catch (Exception ex){
+                string jsonBody;
+                using (var reader = new StreamReader(context.Request.InputStream))
+                {
+                    jsonBody = reader.ReadToEnd();
+                }
+
+                IN_Handler_usp_CMS_Contenido_Crear EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Contenido_Crear>(jsonBody);
+
+                RSP_Handler_usp_CMS_Contenido_Crear respuestaServicio = new RSP_Handler_usp_CMS_Contenido_Crear();
+                try
+                {
+                    var instancia = new OperacionesBD();
+                    respuestaServicio.Respuesta = instancia.usp_CMS_Contenido_Crear(
+                        EntradaServicioRest.titulo,
+                        EntradaServicioRest.cuerpoHTML,
+                        EntradaServicioRest.idCategoria,
+                        EntradaServicioRest.estado,
+                        EntradaServicioRest.idUsuarioAutor,
+                        EntradaServicioRest.esDestacado
+                    );
+                    respuestaServicio.CodigoRespuesta = "200";
+                    respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
+                }
+                catch (Exception ex)
+                {
                     respuestaServicio.CodigoRespuesta = "500";
                     respuestaServicio.GlosaRespuesta = $"Error al procesar el método: {ex.Message}";
                 }
-            string jsonString = JsonConvert.SerializeObject(respuestaServicio);
-            context.Response.Write(jsonString);
+
+                string jsonString = JsonConvert.SerializeObject(respuestaServicio);
+                context.Response.Write(jsonString);
             }
             catch (Exception ex)
-                        {
-                            context.Response.StatusCode = 500;
-                            context.Response.Write(JsonConvert.SerializeObject(new
-                            {
-                                CodigoRespuesta = "500",
-                                GlosaRespuesta = $"Error inesperado: {ex.Message}"
-                            }));
-                        }
+            {
+                context.Response.StatusCode = 500;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "500",
+                    GlosaRespuesta = $"Error inesperado: {ex.Message}"
+                }));
+            }
         }
 
         public bool IsReusable
@@ -55,11 +64,17 @@ respuestaServicio.Respuesta = instancia.usp_CMS_Contenido_Crear(EntradaServicio
 
         public class IN_Handler_usp_CMS_Contenido_Crear
         {
-            
- public string titulo { get; set; }
- public string cuerpoHTML { get; set; }
- public int idCategoria { get; set; }
- public string estado { get; set; }
+ public bool esDestacado { get; set; }
+        }
+
+        public class RSP_Handler_usp_CMS_Contenido_Crear
+        {
+            public string CodigoRespuesta { get; set; }
+            public string GlosaRespuesta { get; set; }
+ public OperacionesBD.Rsp_usp_CMS_Contenido_Crear Respuesta { get; set; }
+        }
+    }
+}
  public int idUsuarioAutor { get; set; }
  public bool esDestacado { get; set; }
         }
