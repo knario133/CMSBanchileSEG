@@ -15,15 +15,15 @@
                         <input type="hidden" id="categoria-id">
                         <div class="mb-3">
                             <label for="nombre-categoria" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre-categoria"> <!-- 'required' eliminado -->
+                            <input type="text" class="form-control" id="nombre-categoria" name="nombre-categoria" required>
                         </div>
                         <div class="mb-3">
                             <label for="descripcion-categoria" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="descripcion-categoria" rows="3"></textarea>
+                            <textarea class="form-control" id="descripcion-categoria" name="descripcion-categoria" rows="3"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="categoria-padre" class="form-label">Categoría Padre (Opcional)</label>
-                            <select class="form-select" id="categoria-padre">
+                            <select class="form-select" id="categoria-padre" name="categoria-padre">
                                 <option value="">-- Sin categoría padre --</option>
                             </select>
                         </div>

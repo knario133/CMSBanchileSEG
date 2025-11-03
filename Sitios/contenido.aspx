@@ -39,7 +39,7 @@
                 <div class="col-md-8">
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título</label>
-                        <input type="text" id="titulo" class="form-control" required>
+                        <input type="text" id="titulo" name="titulo" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="cuerpo-html" class="form-label">Cuerpo del Contenido</label>
@@ -52,11 +52,11 @@
                             <h5 class="card-title">Publicación</h5>
                             <div class="mb-3">
                                 <label for="categoria" class="form-label">Categoría</label>
-                                <select id="categoria" class="form-select" required></select>
+                                <select id="categoria" name="categoria" class="form-select" required></select>
                             </div>
                             <div class="mb-3">
                                 <label for="estado" class="form-label">Estado</label>
-                                <select id="estado" class="form-select">
+                                <select id="estado" name="estado" class="form-select">
                                     <option value="Borrador">Borrador</option>
                                     <option value="Publicado">Publicado</option>
                                 </select>

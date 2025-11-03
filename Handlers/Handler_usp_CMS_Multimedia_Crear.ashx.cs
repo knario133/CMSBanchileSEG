@@ -19,8 +19,34 @@ namespace CMSBanchileSEGUROS
             {
                 jsonBody = reader.ReadToEnd();
             }
+
+            // Validar autenticación
+            if (context.Session["userSession"] == null)
+            {
+                context.Response.StatusCode = 401;
+                context.Response.Write(JsonConvert.SerializeObject(new { CodigoRespuesta = "401", GlosaRespuesta = "No autorizado." }));
+                return;
+            }
+
             // Variables de entrada a Mapear
             IN_Handler_usp_CMS_Multimedia_Crear EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Multimedia_Crear>(jsonBody);
+
+            // Validar el tamaño del archivo (5 MB límite)
+            if (EntradaServicioRest.archivoBase64.Length * 0.75 > 5 * 1024 * 1024)
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Write(JsonConvert.SerializeObject(new { CodigoRespuesta = "400", GlosaRespuesta = "El archivo es demasiado grande." }));
+                return;
+            }
+
+            // Validar el tipo de archivo
+            var allowedTypes = new[] { "image/jpeg", "image/png", "application/pdf" };
+            if (!allowedTypes.Contains(EntradaServicioRest.tipoMIME))
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Write(JsonConvert.SerializeObject(new { CodigoRespuesta = "400", GlosaRespuesta = "Tipo de archivo no permitido." }));
+                return;
+            }
             //Llamada a metodo
             
             RSP_Handler_usp_CMS_Multimedia_Crear respuestaServicio = new RSP_Handler_usp_CMS_Multimedia_Crear();
