@@ -27,12 +27,10 @@
                         <th>Detalles</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Datos cargados dinámicamente -->
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 
-    <script src="/wwwroot/js/historial.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/historial.js") %>'></script>
 </asp:Content>

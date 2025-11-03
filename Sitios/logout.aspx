@@ -12,13 +12,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Limpiar la sesión del localStorage
             localStorage.removeItem('userSession');
-
-            // Redirigir a la página de login después de un breve momento
+            // Usar la ruta base para la redirección
             setTimeout(function () {
-                window.location.href = '/Sitios/login.aspx';
-            }, 1000); // 1 segundo de espera
+                window.location.href = window.appBasePath + 'Sitios/login.aspx';
+            }, 1000);
         });
     </script>
 </asp:Content>

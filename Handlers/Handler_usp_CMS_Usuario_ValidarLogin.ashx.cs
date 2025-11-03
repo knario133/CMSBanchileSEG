@@ -17,18 +17,16 @@ namespace CMSBanchileSEGUROS
             string jsonBody;
             using (var reader = new System.IO.StreamReader(context.Request.InputStream))
             {
-                jsonBody = reader.ReadToEnd().Replace("Contrasena","password");
+                jsonBody = reader.ReadToEnd();
             }
             // Variables de entrada a Mapear
             IN_Handler_usp_CMS_Usuario_ValidarLogin EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Usuario_ValidarLogin>(jsonBody);
             //Llamada a metodo
-            
+
             RSP_Handler_usp_CMS_Usuario_ValidarLogin respuestaServicio = new RSP_Handler_usp_CMS_Usuario_ValidarLogin();
             try{
             var instancia = new OperacionesBD();
-respuestaServicio.Respuesta = instancia.usp_CMS_Usuario_ValidarLogin(
-EntradaServicioRest.usuario, 
-EntradaServicioRest.password);
+respuestaServicio.Respuesta = instancia.usp_CMS_Usuario_ValidarLogin(EntradaServicioRest.usuario, EntradaServicioRest.password);
             respuestaServicio.CodigoRespuesta = "200";
             respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
             }

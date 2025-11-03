@@ -1,6 +1,5 @@
 <%@ Page Title="Gestión de Categorías - CMS Banchile" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="categorias.aspx.cs" Inherits="CMSBanchileSEGUROS.Sitios.categorias" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <!-- Estilos adicionales si fueran necesarios -->
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -19,20 +18,17 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- El contenido se cargará dinámicamente con DataTables -->
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal para Crear/Editar Categoría -->
-    <div class="modal fade" id="modal-categoria" tabindex="-1" aria-labelledby="modal-categoria-label" aria-hidden="true">
+    <div class="modal fade" id="modal-categoria" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-categoria-label">Nueva Categoría</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="form-categoria">
@@ -45,7 +41,6 @@
                             <label for="categoria-padre" class="form-label">Categoría Padre (Opcional)</label>
                             <select class="form-select" id="categoria-padre">
                                 <option value="">-- Sin categoría padre --</option>
-                                <!-- Las opciones se cargarán dinámicamente -->
                             </select>
                         </div>
                     </form>
@@ -57,6 +52,5 @@
             </div>
         </div>
     </div>
-
-    <script src="/wwwroot/js/categorias.js"></script>
+    <script src='<%= ResolveUrl("~/wwwroot/js/categorias.js") %>'></script>
 </asp:Content>
