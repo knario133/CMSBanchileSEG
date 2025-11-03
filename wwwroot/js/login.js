@@ -23,10 +23,10 @@
             app.mostrarSpinner();
 
             try {
-                const response = await fetch(API_URLS.usuario.login, {
+                const response = await app.apiFetch('Login - Autenticar', API_URLS.usuario.login, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ usuario: usuario, password: contrasena }) // CORRECCIÓN
+                    body: JSON.stringify({ usuario, password: contrasena })
                 });
 
                 const result = await response.json();
@@ -48,7 +48,7 @@
                 }
 
             } catch (error) {
-                console.error('Error en el proceso de login:', error);
+                app.logException('Login - handleLogin', error);
                 Swal.fire('Error', 'Ocurrió un problema al intentar iniciar sesión.', 'error');
             } finally {
                 app.ocultarSpinner();

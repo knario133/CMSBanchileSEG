@@ -12,34 +12,41 @@ namespace CMSBanchileSEGUROS
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            try{
-            // Leer el cuerpo de la solicitud
-            string jsonBody;
-            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
+            try
             {
-                jsonBody = reader.ReadToEnd();
-            }
-            // Variables de entrada a Mapear
-            IN_Handler_usp_CMS_Usuario_ValidarLogin EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Usuario_ValidarLogin>(jsonBody);
-            //Llamada a metodo
-
-            RSP_Handler_usp_CMS_Usuario_ValidarLogin respuestaServicio = new RSP_Handler_usp_CMS_Usuario_ValidarLogin();
-            try{
-            var instancia = new OperacionesBD();
-respuestaServicio.Respuesta = instancia.usp_CMS_Usuario_ValidarLogin(EntradaServicioRest.usuario, EntradaServicioRest.password);
-            respuestaServicio.CodigoRespuesta = "200";
-            respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
-            }
-            catch (Exception ex){
-                    respuestaServicio.CodigoRespuesta = "500";
-                    respuestaServicio.GlosaRespuesta = $"Error al procesar el método: {ex.Message}";
+                string jsonBody;
+                using (var reader = new StreamReader(context.Request.InputStream))
+                {
+                    jsonBody = reader.ReadToEnd();
                 }
-            string jsonString = JsonConvert.SerializeObject(respuestaServicio);
-            context.Response.Write(jsonString);
+
+                IN_Handler_usp_CMS_Usuario_ValidarLogin EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Usuario_ValidarLogin>(jsonBody);
+
+                RSP_Handler_usp_CMS_Usuario_ValidarLogin respuestaServicio = new RSP_Handler_usp_CMS_Usuario_ValidarLogin();
+                try
+                {
+                    var instancia = new OperacionesBD();
+                    respuestaServicio.Respuesta = instancia.usp_CMS_Usuario_ValidarLogin(
+                        EntradaServicioRest.usuario,
+                        EntradaServicioRest.password
+                    );
+                    respuestaServicio.CodigoRespuesta = "200";
+                    respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
+                }
+                catch (Exception ex)
+                {
+
+                string jsonString = JsonConvert.SerializeObject(respuestaServicio);
+                context.Response.Write(jsonString);
+            {
+                context.Response.StatusCode = 500;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "500",
+                    GlosaRespuesta = $"Error inesperado: {ex.Message}"
+                }));
             }
-            catch (Exception ex)
-                        {
-                            context.Response.StatusCode = 500;
+}
                             context.Response.Write(JsonConvert.SerializeObject(new
                             {
                                 CodigoRespuesta = "500",

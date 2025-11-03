@@ -12,40 +12,44 @@ namespace CMSBanchileSEGUROS
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            try{
-            // Leer el cuerpo de la solicitud
-            string jsonBody;
-            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
+            try
             {
-                jsonBody = reader.ReadToEnd();
-            }
-            // Variables de entrada a Mapear
-            IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId>(jsonBody);
-            //Llamada a metodo
-            
-            RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId respuestaServicio = new RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId();
-            try{
-            var instancia = new OperacionesBD();
-respuestaServicio.Respuesta = instancia.usp_CMS_ContenidoMultimedia_ObtenerPorId(EntradaServicioRest.idContenidoMultimedia);
-            respuestaServicio.CodigoRespuesta = "200";
-            respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
-            }
-            catch (Exception ex){
+                string jsonBody;
+                using (var reader = new StreamReader(context.Request.InputStream))
+                {
+                    jsonBody = reader.ReadToEnd();
+                }
+
+                IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId>(jsonBody);
+
+                RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId respuestaServicio = new RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId();
+                try
+                {
+                    var instancia = new OperacionesBD();
+                    respuestaServicio.Respuesta = instancia.usp_CMS_ContenidoMultimedia_ObtenerPorId(
+                        EntradaServicioRest.idContenidoMultimedia
+                    );
+                    respuestaServicio.CodigoRespuesta = "200";
+                    respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
+                }
+                catch (Exception ex)
+                {
                     respuestaServicio.CodigoRespuesta = "500";
                     respuestaServicio.GlosaRespuesta = $"Error al procesar el método: {ex.Message}";
                 }
-            string jsonString = JsonConvert.SerializeObject(respuestaServicio);
-            context.Response.Write(jsonString);
+
+                string jsonString = JsonConvert.SerializeObject(respuestaServicio);
+                context.Response.Write(jsonString);
             }
             catch (Exception ex)
-                        {
-                            context.Response.StatusCode = 500;
-                            context.Response.Write(JsonConvert.SerializeObject(new
-                            {
-                                CodigoRespuesta = "500",
-                                GlosaRespuesta = $"Error inesperado: {ex.Message}"
-                            }));
-                        }
+            {
+                context.Response.StatusCode = 500;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "500",
+                    GlosaRespuesta = $"Error inesperado: {ex.Message}"
+                }));
+            }
         }
 
         public bool IsReusable
@@ -55,7 +59,6 @@ respuestaServicio.Respuesta = instancia.usp_CMS_ContenidoMultimedia_ObtenerPorId
 
         public class IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId
         {
-            
  public int idContenidoMultimedia { get; set; }
         }
 
@@ -63,8 +66,10 @@ respuestaServicio.Respuesta = instancia.usp_CMS_ContenidoMultimedia_ObtenerPorId
         {
             public string CodigoRespuesta { get; set; }
             public string GlosaRespuesta { get; set; }
-            
  public OperacionesBD.Rsp_usp_CMS_ContenidoMultimedia_ObtenerPorId Respuesta { get; set; }
+        }
+    }
+}
         }
     }
 }
