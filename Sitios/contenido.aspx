@@ -76,5 +76,7 @@
         </form>
     </div>
 
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
     <script src='<%= ResolveUrl("~/wwwroot/js/contenido.js") %>'></script>
 </asp:Content>

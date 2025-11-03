@@ -32,5 +32,7 @@
         </div>
     </div>
 
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
     <script src='<%= ResolveUrl("~/wwwroot/js/historial.js") %>'></script>
 </asp:Content>
