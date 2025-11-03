@@ -8,16 +8,16 @@
     <title>CMS Banchile Seguros</title>
 
     <!-- Librerías CSS Locales -->
-    <link href='<%= ResolveUrl("~/Librerias/JsBootstrapBundle/bootstrap.min.css") %>' rel="stylesheet">
-    <link href='<%= ResolveUrl("~/Librerias/JsSweetalert2/sweetalert2.min.css") %>' rel="stylesheet">
-    <link href='<%= ResolveUrl("~/Librerias/FontawesomeFree/fontawesome.min.css") %>' rel="stylesheet">
+    <link href="<%: ResolveUrl("~/Librerias/JsBootstrapBundle/bootstrap.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/Librerias/JsSweetalert2/sweetalert2.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/Librerias/FontawesomeFree/fontawesome.min.css") %>" rel="stylesheet" />
 
     <!-- DataTables y Quill desde CDN (archivos locales faltantes) -->
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <!-- Estilos personalizados -->
-    <link href='<%= ResolveUrl("~/wwwroot/css/style.css") %>' rel="stylesheet">
+    <link href="<%: ResolveUrl("~/wwwroot/css/style.css") %>" rel="stylesheet" />
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -67,9 +67,9 @@
     </form>
 
     <!-- Librerías JS Locales -->
-    <script src='<%= ResolveUrl("~/Librerias/JsJquery/jquery.min.js") %>'></script>
-    <script src='<%= ResolveUrl("~/Librerias/JsBootstrapBundle/bootstrap.bundle.min.js") %>'></script>
-    <script src='<%= ResolveUrl("~/Librerias/JsSweetalert2/sweetalert2.all.min.js") %>'></script>
+    <script src="<%: ResolveUrl("~/Librerias/JsJquery/jquery.min.js") %>"></script>
+    <script src="<%: ResolveUrl("~/Librerias/JsBootstrapBundle/bootstrap.bundle.min.js") %>"></script>
+    <script src="<%: ResolveUrl("~/Librerias/JsSweetalert2/sweetalert2.all.min.js") %>"></script>
 
     <!-- DataTables y Quill desde CDN -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -80,8 +80,8 @@
         window.appBasePath = '<%= ResolveUrl("~/") %>';
     </script>
 
-    <script src='<%= ResolveUrl("~/wwwroot/js/apiConfig.js") %>'></script>
-    <script src='<%= ResolveUrl("~/wwwroot/js/app.js") %>'></script>
+    <script src="<%: ResolveUrl("~/wwwroot/js/apiConfig.js") %>"></script>
+    <script src="<%: ResolveUrl("~/wwwroot/js/app.js") %>"></script>
 
 </body>
 </html>
