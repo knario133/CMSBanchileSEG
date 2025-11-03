@@ -150,6 +150,16 @@
     <Content Include="Librerias\ToastrJs\toastr.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sitios\admin.aspx" />
+    <Content Include="Sitios\categorias.aspx" />
+    <Content Include="Sitios\configuracion.aspx" />
+    <Content Include="Sitios\contenido.aspx" />
+    <Content Include="Sitios\historial.aspx" />
+    <Content Include="Sitios\login.aspx" />
+    <Content Include="Sitios\logout.aspx" />
+    <Content Include="Sitios\multimedia.aspx" />
+    <Content Include="Sitios\roles.aspx" />
+    <Content Include="Sitios\usuarios.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +309,76 @@
     </Compile>
     <Compile Include="OperacionesBD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sitios\admin.aspx.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\admin.aspx.designer.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\categorias.aspx.cs">
+      <DependentUpon>categorias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\categorias.aspx.designer.cs">
+      <DependentUpon>categorias.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\configuracion.aspx.cs">
+      <DependentUpon>configuracion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\configuracion.aspx.designer.cs">
+      <DependentUpon>configuracion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\contenido.aspx.cs">
+      <DependentUpon>contenido.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\contenido.aspx.designer.cs">
+      <DependentUpon>contenido.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\historial.aspx.cs">
+      <DependentUpon>historial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\historial.aspx.designer.cs">
+      <DependentUpon>historial.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\logout.aspx.cs">
+      <DependentUpon>logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\logout.aspx.designer.cs">
+      <DependentUpon>logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\multimedia.aspx.cs">
+      <DependentUpon>multimedia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\multimedia.aspx.designer.cs">
+      <DependentUpon>multimedia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\roles.aspx.cs">
+      <DependentUpon>roles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\roles.aspx.designer.cs">
+      <DependentUpon>roles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sitios\usuarios.aspx.cs">
+      <DependentUpon>usuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitios\usuarios.aspx.designer.cs">
+      <DependentUpon>usuarios.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Template.Master.cs">
       <DependentUpon>Template.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
