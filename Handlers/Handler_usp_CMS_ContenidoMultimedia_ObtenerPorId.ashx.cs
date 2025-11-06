@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -12,59 +10,77 @@ namespace CMSBanchileSEGUROS
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            try{
-            // Leer el cuerpo de la solicitud
-            string jsonBody;
-            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
+
+            try
             {
-                jsonBody = reader.ReadToEnd();
-            }
-            // Variables de entrada a Mapear
-            IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId>(jsonBody);
-            //Llamada a metodo
-            
-            RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId respuestaServicio = new RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId();
-            try{
-            var instancia = new OperacionesBD();
-respuestaServicio.Respuesta = instancia.usp_CMS_ContenidoMultimedia_ObtenerPorId(EntradaServicioRest.idContenidoMultimedia);
-            respuestaServicio.CodigoRespuesta = "200";
-            respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
-            }
-            catch (Exception ex){
+                IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId entrada;
+                using (var reader = new StreamReader(context.Request.InputStream))
+                {
+                    var body = reader.ReadToEnd();
+                    entrada = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId>(body ?? string.Empty);
+                }
+
+                if (entrada == null || entrada.idContenidoMultimedia <= 0)
+                {
+                    context.Response.StatusCode = 400;
+                    context.Response.Write(JsonConvert.SerializeObject(new
+                    {
+                        CodigoRespuesta = "400",
+                        GlosaRespuesta = "Debe proporcionar un identificador válido de contenido multimedia."
+                    }));
+                    return;
+                }
+
+                var respuestaServicio = new RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId();
+                try
+                {
+                    var instancia = new OperacionesBD();
+                    respuestaServicio.Respuesta = instancia.usp_CMS_ContenidoMultimedia_ObtenerPorId(entrada.idContenidoMultimedia);
+
+                    respuestaServicio.CodigoRespuesta = "200";
+                    respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
+                }
+                catch (Exception ex)
+                {
                     respuestaServicio.CodigoRespuesta = "500";
                     respuestaServicio.GlosaRespuesta = $"Error al procesar el método: {ex.Message}";
                 }
-            string jsonString = JsonConvert.SerializeObject(respuestaServicio);
-            context.Response.Write(jsonString);
+
+                context.Response.Write(JsonConvert.SerializeObject(respuestaServicio));
+            }
+            catch (JsonException ex)
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "400",
+                    GlosaRespuesta = $"Formato de solicitud inválido: {ex.Message}"
+                }));
             }
             catch (Exception ex)
-                        {
-                            context.Response.StatusCode = 500;
-                            context.Response.Write(JsonConvert.SerializeObject(new
-                            {
-                                CodigoRespuesta = "500",
-                                GlosaRespuesta = $"Error inesperado: {ex.Message}"
-                            }));
-                        }
+            {
+                context.Response.StatusCode = 500;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "500",
+                    GlosaRespuesta = $"Error inesperado: {ex.Message}"
+                }));
+            }
         }
 
-        public bool IsReusable
-        {
-            get { return false; }
-        }
+        public bool IsReusable => false;
 
         public class IN_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId
         {
-            
- public int idContenidoMultimedia { get; set; }
+            public int idContenidoMultimedia { get; set; }
         }
 
         public class RSP_Handler_usp_CMS_ContenidoMultimedia_ObtenerPorId
         {
             public string CodigoRespuesta { get; set; }
             public string GlosaRespuesta { get; set; }
-            
- public OperacionesBD.Rsp_usp_CMS_ContenidoMultimedia_ObtenerPorId Respuesta { get; set; }
+            public OperacionesBD.Rsp_usp_CMS_ContenidoMultimedia_ObtenerPorId Respuesta { get; set; }
         }
     }
+}
 }

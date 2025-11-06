@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -12,61 +10,92 @@ namespace CMSBanchileSEGUROS
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            try{
-            // Leer el cuerpo de la solicitud
-            string jsonBody;
-            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
+
+            try
             {
-                jsonBody = reader.ReadToEnd();
-            }
-            // Variables de entrada a Mapear
-            IN_Handler_usp_CMS_Contenido_Actualizar EntradaServicioRest = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Contenido_Actualizar>(jsonBody);
-            //Llamada a metodo
-            
-            RSP_Handler_usp_CMS_Contenido_Actualizar respuestaServicio = new RSP_Handler_usp_CMS_Contenido_Actualizar();
-            try{
-            var instancia = new OperacionesBD();
-respuestaServicio.Respuesta = instancia.usp_CMS_Contenido_Actualizar(EntradaServicioRest.idContenido, EntradaServicioRest.titulo, EntradaServicioRest.cuerpoHTML, EntradaServicioRest.idCategoria, EntradaServicioRest.estado, EntradaServicioRest.idUsuarioAutor, EntradaServicioRest.esDestacado);
-            respuestaServicio.CodigoRespuesta = "200";
-            respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
-            }
-            catch (Exception ex){
+                IN_Handler_usp_CMS_Contenido_Actualizar entrada;
+                using (var reader = new StreamReader(context.Request.InputStream))
+                {
+                    var body = reader.ReadToEnd();
+                    entrada = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Contenido_Actualizar>(body ?? string.Empty);
+                }
+
+                if (entrada == null || entrada.idContenido <= 0 || string.IsNullOrWhiteSpace(entrada.titulo) || entrada.idCategoria <= 0)
+                {
+                    context.Response.StatusCode = 400;
+                    context.Response.Write(JsonConvert.SerializeObject(new
+                    {
+                        CodigoRespuesta = "400",
+                        GlosaRespuesta = "Debe proporcionar un contenido válido con título y categoría."
+                    }));
+                    return;
+                }
+
+                var respuestaServicio = new RSP_Handler_usp_CMS_Contenido_Actualizar();
+                try
+                {
+                    var instancia = new OperacionesBD();
+                    respuestaServicio.Respuesta = instancia.usp_CMS_Contenido_Actualizar(
+                        entrada.idContenido,
+                        entrada.titulo,
+                        entrada.cuerpoHTML ?? string.Empty,
+                        entrada.idCategoria,
+                        entrada.estado ?? string.Empty,
+                        entrada.idUsuarioAutor,
+                        entrada.esDestacado);
+
+                    respuestaServicio.CodigoRespuesta = "200";
+                    respuestaServicio.GlosaRespuesta = "Operación realizada con éxito.";
+                }
+                catch (Exception ex)
+                {
                     respuestaServicio.CodigoRespuesta = "500";
                     respuestaServicio.GlosaRespuesta = $"Error al procesar el método: {ex.Message}";
                 }
-            string jsonString = JsonConvert.SerializeObject(respuestaServicio);
-            context.Response.Write(jsonString);
+
+                context.Response.Write(JsonConvert.SerializeObject(respuestaServicio));
+            }
+            catch (JsonException ex)
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "400",
+                    GlosaRespuesta = $"Formato de solicitud inválido: {ex.Message}"
+                }));
             }
             catch (Exception ex)
-                        {
-                            context.Response.StatusCode = 500;
-                            context.Response.Write(JsonConvert.SerializeObject(new
-                            {
-                                CodigoRespuesta = "500",
-                                GlosaRespuesta = $"Error inesperado: {ex.Message}"
-                            }));
-                        }
+            {
+                context.Response.StatusCode = 500;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "500",
+                    GlosaRespuesta = $"Error inesperado: {ex.Message}"
+                }));
+            }
         }
 
-        public bool IsReusable
-        {
-            get { return false; }
-        }
+        public bool IsReusable => false;
 
         public class IN_Handler_usp_CMS_Contenido_Actualizar
         {
-            
- public int idContenido { get; set; }
- public string titulo { get; set; }
- public string cuerpoHTML { get; set; }
- public int idCategoria { get; set; }
- public string estado { get; set; }
- public int idUsuarioAutor { get; set; }
- public bool esDestacado { get; set; }
+            public int idContenido { get; set; }
+            public string titulo { get; set; }
+            public string cuerpoHTML { get; set; }
+            public int idCategoria { get; set; }
+            public string estado { get; set; }
+            public int idUsuarioAutor { get; set; }
+            public bool esDestacado { get; set; }
         }
 
         public class RSP_Handler_usp_CMS_Contenido_Actualizar
         {
+            public string CodigoRespuesta { get; set; }
+            public string GlosaRespuesta { get; set; }
+            public OperacionesBD.Rsp_usp_CMS_Contenido_Actualizar Respuesta { get; set; }
+        }
+    }
+}
             public string CodigoRespuesta { get; set; }
             public string GlosaRespuesta { get; set; }
             
