@@ -123,7 +123,22 @@
     <Content Include="Librerias\JsDatatablesSelect\select.dataTables.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Librerias\JsDatatables\dataTables.bootstrap5.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Librerias\JsDatatables\dataTables.bootstrap5.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Librerias\JsDatatables\jquery.dataTables.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Librerias\JsDatatables\jquery.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Librerias\QuillJS\quill.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Librerias\QuillJS\quill.snow.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Librerias\JsJqueryUi\jquery-ui.min.js">
@@ -163,6 +178,7 @@
     <Content Include="wwwroot\css\style.css" />
     <Content Include="wwwroot\img\banchile-corredores-de-seguro-logo.png" />
     <Content Include="wwwroot\js\apiConfig.js" />
+    <Content Include="wwwroot\js\apiService.js" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\categorias.js" />
     <Content Include="wwwroot\js\contenido.js" />
