@@ -6,21 +6,36 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
+        const tablaElement = document.getElementById('tabla-categorias');
+        if (!tablaElement) {
+            console.warn('No se encontró el elemento #tabla-categorias. Se cancela la inicialización de la página de categorías.');
+            return;
+        }
+
         const modalElement = document.getElementById('modal-categoria');
-        const modal = new bootstrap.Modal(modalElement);
+        const modal = modalElement ? new bootstrap.Modal(modalElement) : null;
 
         tablaCategorias = $('#tabla-categorias').DataTable({ /* ... */ });
         cargarCategorias();
 
-        document.getElementById('btn-nueva-categoria').addEventListener('click', function () {
-            document.getElementById('form-categoria').reset();
-            document.getElementById('categoria-id').value = '';
-            document.getElementById('modal-categoria-label').textContent = 'Nueva Categoría';
-            actualizarSelectPadre();
-            modal.show();
-        });
+        const btnNuevaCategoria = document.getElementById('btn-nueva-categoria');
+        if (btnNuevaCategoria) {
+            btnNuevaCategoria.addEventListener('click', function () {
+                document.getElementById('form-categoria').reset();
+                document.getElementById('categoria-id').value = '';
+                document.getElementById('modal-categoria-label').textContent = 'Nueva Categoría';
+                actualizarSelectPadre();
+                if (modal) {
+                    modal.show();
+                }
+            });
+        }
 
-        document.getElementById('btn-guardar-categoria').addEventListener('click', guardarCategoria);
+        const btnGuardarCategoria = document.getElementById('btn-guardar-categoria');
+        if (btnGuardarCategoria) {
+            btnGuardarCategoria.addEventListener('click', guardarCategoria);
+        }
+
         $('#tabla-categorias tbody').on('click', '.btn-editar', function () { abrirModalParaEditar($(this).data('id')); });
         $('#tabla-categorias tbody').on('click', '.btn-eliminar', function () { eliminarCategoria($(this).data('id')); });
     });
