@@ -13,5 +13,31 @@ namespace CMSBanchileSEGUROS.Sitios
 
     public partial class admin
     {
+        /// <summary>
+        /// Control ContenidoCountLiteral.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Modificar la declaración del campo de movimiento el archivo de diseñador a archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ContenidoCountLiteral;
+
+        /// <summary>
+        /// Control UsuariosCountLiteral.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Modificar la declaración del campo de movimiento el archivo de diseñador a archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal UsuariosCountLiteral;
+
+        /// <summary>
+        /// Control CategoriasCountLiteral.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Modificar la declaración del campo de movimiento el archivo de diseñador a archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal CategoriasCountLiteral;
     }
 }
