@@ -81,6 +81,7 @@
     </script>
 
     <script src="<%: ResolveUrl("~/wwwroot/js/apiConfig.js") %>"></script>
+    <script src="<%: ResolveUrl("~/wwwroot/js/apiService.js") %>"></script>
     <script src="<%: ResolveUrl("~/wwwroot/js/app.js") %>"></script>
 
     <asp:ContentPlaceHolder ID="Scripts" runat="server"></asp:ContentPlaceHolder>
