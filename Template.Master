@@ -13,7 +13,7 @@
     <link href="<%: ResolveUrl("~/Librerias/FontawesomeFree/fontawesome.min.css") %>" rel="stylesheet" />
 
     <!-- DataTables y Quill locales -->
-    <link href="<%: ResolveUrl("~/JsDatatables/dataTables.bootstrap5.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/Librerias/JsDatatables/dataTables.bootstrap5.min.css") %>" rel="stylesheet" />
     <link href="<%: ResolveUrl("~/Librerias/QuillJS/quill.snow.css") %>" rel="stylesheet" />
 
     <!-- Estilos personalizados -->
@@ -72,8 +72,8 @@
     <script src="<%: ResolveUrl("~/Librerias/JsSweetalert2/sweetalert2.all.min.js") %>"></script>
 
     <!-- DataTables y Quill locales -->
-    <script src="<%: ResolveUrl("~/JsDatatables/jquery.dataTables.min.js") %>"></script>
-    <script src="<%: ResolveUrl("~/JsDatatables/dataTables.bootstrap5.min.js") %>"></script>
+    <script src="<%: ResolveUrl("~/Librerias/JsDatatables/jquery.dataTables.min.js") %>"></script>
+    <script src="<%: ResolveUrl("~/Librerias/JsDatatables/dataTables.bootstrap5.min.js") %>"></script>
     <script src="<%: ResolveUrl("~/Librerias/QuillJS/quill.min.js") %>"></script>
 
     <script type="text/javascript">
