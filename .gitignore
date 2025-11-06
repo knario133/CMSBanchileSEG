@@ -1,0 +1,20 @@
+# Build directories
+bin/
+obj/
+.vs/
+packages/
+
+# Library assets (ignore heavy libs)
+Librerias/JsDatatablesButtons/
+Librerias/JsDatatablesSelect/
+Librerias/JsBootstrapBundle/
+Librerias/JsJquery/
+Librerias/JsJqueryUi/
+Librerias/JsSweetalert2/
+Librerias/NormalizeCss/
+Librerias/ToastrJs/
+
+# System files
+desktop.ini
+*.db-shm
+*.db-wal
