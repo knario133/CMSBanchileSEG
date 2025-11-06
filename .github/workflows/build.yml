@@ -1,0 +1,17 @@
+name: Build CMSBanchileSEG
+
+on:
+  push:
+    branches: [ "main", "fix-handlers-and-modals" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+      - name: Build solution
+        run: msbuild CMSBanchileSEGUROS.sln /t:Build /p:Configuration=Debug
