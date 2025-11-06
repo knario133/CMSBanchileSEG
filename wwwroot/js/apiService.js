@@ -43,15 +43,17 @@
     async function request(method, url, data = null) {
         const options = {
             method: method,
-            headers: {
-                // ASHX handlers often expect application/x-www-form-urlencoded
-                // but can be configured for JSON. Let's assume JSON and adjust if needed.
-                'Content-Type': 'application/json'
-            }
+            headers: {},
+            credentials: 'same-origin'
         };
 
         if (data && method === 'POST') {
-            options.body = JSON.stringify(data);
+            if (data instanceof FormData) {
+                options.body = data;
+            } else {
+                options.headers['Content-Type'] = 'application/json';
+                options.body = JSON.stringify(data);
+            }
         }
 
         try {

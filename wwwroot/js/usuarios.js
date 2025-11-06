@@ -78,8 +78,8 @@
         app.mostrarSpinner();
         try {
             const [roles, usuarios] = await Promise.all([
-                apiService.get(API_URLS.rol.listar),
-                apiService.get(API_URLS.usuario.listar)
+                apiService.post(API_URLS.rol.listar, {}),
+                apiService.post(API_URLS.usuario.listar, {})
             ]);
 
             todosLosRoles = roles || [];
@@ -132,8 +132,8 @@
         app.mostrarSpinner();
         try {
             const [userData, rolesData] = await Promise.all([
-                apiService.get(`${API_URLS.usuario.obtenerPorId}?id=${id}`),
-                apiService.get(`${API_URLS.usuarioRol.listarPorUsuario}?idUsuario=${id}`)
+                apiService.post(API_URLS.usuario.obtenerPorId, { idUsuario: id }),
+                apiService.post(API_URLS.usuarioRol.listarPorUsuario, { idUsuario: id })
             ]);
 
             const user = userData[0];
@@ -219,7 +219,7 @@
      */
     async function guardarRoles(idUsuario, rolesNuevos) {
         try {
-            const rolesActualesData = await apiService.get(`${API_URLS.usuarioRol.listarPorUsuario}?idUsuario=${idUsuario}`);
+            const rolesActualesData = await apiService.post(API_URLS.usuarioRol.listarPorUsuario, { idUsuario });
             const rolesActuales = (rolesActualesData || []).map(r => r.IdRol.toString());
 
             const rolesAAgregar = rolesNuevos.filter(id => !rolesActuales.includes(id));

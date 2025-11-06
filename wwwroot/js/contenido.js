@@ -155,7 +155,7 @@
 
     async function cargarCategorias() {
         try {
-            const categorias = await apiService.get(API_URLS.categoria.listar);
+            const categorias = await apiService.post(API_URLS.categoria.listar, {});
             todasLasCategorias = Array.isArray(categorias) ? categorias : [];
 
             poblarSelect(filtroCategoriaSelect, todasLasCategorias, true);
