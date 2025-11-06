@@ -128,48 +128,122 @@
             const columna = document.createElement('div');
             columna.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
 
-            const nombreSeguro = escapeHtml(item.NombreOriginal || 'Archivo');
-            const previewMarkup = obtenerMarkupPreview(item, nombreSeguro);
-            const fechaMarkup = formatearFecha(item.FechaSubida);
+            const card = document.createElement('div');
+            card.className = 'card gallery-card h-100';
 
-            columna.innerHTML = `
-                <div class="card gallery-card h-100">
-                    ${previewMarkup}
-                    <div class="card-body">
-                        <p class="card-text text-truncate" title="${nombreSeguro}">${nombreSeguro}</p>
-                        ${fechaMarkup ? `<small class=\"text-muted d-block\">Subido el ${fechaMarkup}</small>` : ''}
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button class="btn btn-sm btn-outline-primary btn-editar" data-id="${item.IdArchivo}"><i class="fas fa-edit me-1"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger btn-eliminar" data-id="${item.IdArchivo}"><i class="fas fa-trash me-1"></i>Eliminar</button>
-                    </div>
-                </div>`;
+            const nombreOriginal = typeof item.NombreOriginal === 'string' && item.NombreOriginal.trim()
+                ? item.NombreOriginal.trim()
+                : 'Archivo';
 
+            const preview = crearPreviewElemento(item, nombreOriginal);
+            if (preview) {
+                card.appendChild(preview);
+            }
+
+            const cuerpo = document.createElement('div');
+            cuerpo.className = 'card-body';
+
+            const titulo = document.createElement('p');
+            titulo.className = 'card-text text-truncate';
+            titulo.textContent = nombreOriginal;
+            titulo.title = nombreOriginal;
+            cuerpo.appendChild(titulo);
+
+            const fechaFormateada = formatearFecha(item.FechaSubida);
+            if (fechaFormateada) {
+                const fecha = document.createElement('small');
+                fecha.className = 'text-muted d-block';
+                fecha.textContent = `Subido el ${fechaFormateada}`;
+                cuerpo.appendChild(fecha);
+            }
+
+            card.appendChild(cuerpo);
+
+            const pie = document.createElement('div');
+            pie.className = 'card-footer d-flex justify-content-between';
+
+            const botonEditar = document.createElement('button');
+            botonEditar.type = 'button';
+            botonEditar.className = 'btn btn-sm btn-outline-primary btn-editar';
+            botonEditar.dataset.id = String(item.IdArchivo ?? '');
+            botonEditar.innerHTML = '<i class="fas fa-edit me-1"></i>Editar';
+
+            const botonEliminar = document.createElement('button');
+            botonEliminar.type = 'button';
+            botonEliminar.className = 'btn btn-sm btn-outline-danger btn-eliminar';
+            botonEliminar.dataset.id = String(item.IdArchivo ?? '');
+            botonEliminar.innerHTML = '<i class="fas fa-trash me-1"></i>Eliminar';
+
+            pie.appendChild(botonEditar);
+            pie.appendChild(botonEliminar);
+            card.appendChild(pie);
+
+            columna.appendChild(card);
             fragment.appendChild(columna);
         });
 
         container.appendChild(fragment);
     }
 
-    function obtenerMarkupPreview(item, nombreSeguro) {
+    function crearPreviewElemento(item, nombreArchivo) {
         const base64 = item.ArchivoBase64 || item.Base64 || '';
         const mimeType = item.TipoMIME || 'application/octet-stream';
 
         if (!base64) {
-            return '<div class="card-img-top d-flex align-items-center justify-content-center bg-light text-muted" style="height: 150px;">Vista previa no disponible</div>';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'card-img-top d-flex align-items-center justify-content-center bg-light text-muted';
+            placeholder.style.height = '150px';
+            placeholder.textContent = 'Vista previa no disponible';
+            return placeholder;
         }
 
         const src = `data:${mimeType};base64,${base64}`;
 
         if (mimeType.startsWith('image/')) {
-            return `<a href="${src}" target="_blank" rel="noopener"><img src="${src}" class="card-img-top" alt="${nombreSeguro}"></a>`;
+            const enlace = document.createElement('a');
+            enlace.href = src;
+            enlace.target = '_blank';
+            enlace.rel = 'noopener';
+
+            const imagen = document.createElement('img');
+            imagen.src = src;
+            imagen.className = 'card-img-top';
+            imagen.alt = nombreArchivo;
+
+            enlace.appendChild(imagen);
+            return enlace;
         }
 
         if (mimeType === 'application/pdf') {
-            return `<div class="card-img-top pdf-icon text-danger d-flex align-items-center justify-content-center"><a href="${src}" target="_blank" rel="noopener" class="text-danger"><i class="fas fa-file-pdf"></i></a></div>`;
+            const contenedor = document.createElement('div');
+            contenedor.className = 'card-img-top pdf-icon text-danger d-flex align-items-center justify-content-center';
+
+            const enlace = document.createElement('a');
+            enlace.href = src;
+            enlace.target = '_blank';
+            enlace.rel = 'noopener';
+            enlace.className = 'text-danger';
+
+            const icono = document.createElement('i');
+            icono.className = 'fas fa-file-pdf';
+
+            enlace.appendChild(icono);
+            contenedor.appendChild(enlace);
+            return contenedor;
         }
 
-        return `<div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 150px;"><a href="${src}" target="_blank" rel="noopener">Ver archivo</a></div>`;
+        const generico = document.createElement('div');
+        generico.className = 'card-img-top d-flex align-items-center justify-content-center bg-light';
+        generico.style.height = '150px';
+
+        const enlace = document.createElement('a');
+        enlace.href = src;
+        enlace.target = '_blank';
+        enlace.rel = 'noopener';
+        enlace.textContent = 'Ver archivo';
+
+        generico.appendChild(enlace);
+        return generico;
     }
 
     function manejarClickGaleria(event) {
@@ -379,22 +453,6 @@
             console.warn('No se pudo formatear la fecha:', fecha, error);
             return '';
         }
-    }
-
-    function escapeHtml(text) {
-        if (!text) {
-            return '';
-        }
-        return text.replace(/[&<>"']/g, (char) => {
-            switch (char) {
-                case '&': return '&amp;';
-                case '<': return '&lt;';
-                case '>': return '&gt;';
-                case '"': return '&quot;';
-                case "'": return '&#39;';
-                default: return char;
-            }
-        });
     }
 
 })();
