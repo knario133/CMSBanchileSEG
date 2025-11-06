@@ -9,49 +9,68 @@ namespace CMSBanchileSEGUROS
 {
     public class Handler_usp_CMS_Multimedia_Crear : IHttpHandler, IRequiresSessionState
     {
+        private static readonly string[] TiposPermitidos = { "image/jpeg", "image/png", "application/pdf" };
+        private const int MaxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
 
             try
             {
-                string jsonBody;
+                IN_Handler_usp_CMS_Multimedia_Crear entrada;
                 using (var reader = new StreamReader(context.Request.InputStream))
                 {
-                    jsonBody = reader.ReadToEnd();
+                    var body = reader.ReadToEnd();
+                    entrada = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Multimedia_Crear>(body ?? string.Empty);
                 }
 
                 if (context.Session["userSession"] == null)
                 {
                     context.Response.StatusCode = 401;
-                    context.Response.Write(JsonConvert.SerializeObject(new { CodigoRespuesta = "401", GlosaRespuesta = "No autorizado." }));
+                    context.Response.Write(JsonConvert.SerializeObject(new
+                    {
+                        CodigoRespuesta = "401",
+                        GlosaRespuesta = "No autorizado."
+                    }));
                     return;
                 }
-
-                var entrada = JsonConvert.DeserializeObject<IN_Handler_usp_CMS_Multimedia_Crear>(jsonBody);
 
                 if (entrada == null ||
                     string.IsNullOrWhiteSpace(entrada.archivoBase64) ||
                     string.IsNullOrWhiteSpace(entrada.nombreOriginal) ||
-                    string.IsNullOrWhiteSpace(entrada.tipoMIME))
+                    string.IsNullOrWhiteSpace(entrada.tipoMIME) ||
+                    entrada.idUsuarioSubio <= 0)
                 {
                     context.Response.StatusCode = 400;
-                    context.Response.Write(JsonConvert.SerializeObject(new { CodigoRespuesta = "400", GlosaRespuesta = "Los datos enviados no son válidos." }));
+                    context.Response.Write(JsonConvert.SerializeObject(new
+                    {
+                        CodigoRespuesta = "400",
+                        GlosaRespuesta = "Los datos enviados no son válidos."
+                    }));
                     return;
                 }
 
-                if (entrada.archivoBase64.Length * 0.75 > 5 * 1024 * 1024)
+                var estimatedSize = (int)(entrada.archivoBase64.Length * 0.75);
+                if (estimatedSize > MaxFileSizeBytes)
                 {
                     context.Response.StatusCode = 400;
-                    context.Response.Write(JsonConvert.SerializeObject(new { CodigoRespuesta = "400", GlosaRespuesta = "El archivo es demasiado grande." }));
+                    context.Response.Write(JsonConvert.SerializeObject(new
+                    {
+                        CodigoRespuesta = "400",
+                        GlosaRespuesta = "El archivo es demasiado grande."
+                    }));
                     return;
                 }
 
-                var allowedTypes = new[] { "image/jpeg", "image/png", "application/pdf" };
-                if (!allowedTypes.Contains(entrada.tipoMIME))
+                if (!TiposPermitidos.Contains(entrada.tipoMIME))
                 {
                     context.Response.StatusCode = 400;
-                    context.Response.Write(JsonConvert.SerializeObject(new { CodigoRespuesta = "400", GlosaRespuesta = "Tipo de archivo no permitido." }));
+                    context.Response.Write(JsonConvert.SerializeObject(new
+                    {
+                        CodigoRespuesta = "400",
+                        GlosaRespuesta = "Tipo de archivo no permitido."
+                    }));
                     return;
                 }
 
@@ -75,6 +94,15 @@ namespace CMSBanchileSEGUROS
                 }
 
                 context.Response.Write(JsonConvert.SerializeObject(respuestaServicio));
+            }
+            catch (JsonException ex)
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Write(JsonConvert.SerializeObject(new
+                {
+                    CodigoRespuesta = "400",
+                    GlosaRespuesta = $"Formato de solicitud inválido: {ex.Message}"
+                }));
             }
             catch (Exception ex)
             {
@@ -102,10 +130,6 @@ namespace CMSBanchileSEGUROS
             public string CodigoRespuesta { get; set; }
             public string GlosaRespuesta { get; set; }
             public OperacionesBD.Rsp_usp_CMS_Multimedia_Crear Respuesta { get; set; }
-        }
-    }
-}
- public OperacionesBD.Rsp_usp_CMS_Multimedia_Crear Respuesta { get; set; }
         }
     }
 }
