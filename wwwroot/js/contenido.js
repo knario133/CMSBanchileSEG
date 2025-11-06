@@ -23,25 +23,42 @@
     let destacadoCheckbox;
     let filtroCategoriaSelect;
 
+    function getElement(id) {
+        return document.getElementById(id) || document.querySelector(`[id$="${id}"]`);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-        const tablaElement = document.getElementById('tabla-contenidos');
-        filtroCategoriaSelect = document.getElementById('filtro-categoria');
-        const btnNuevoContenido = document.getElementById('btn-nuevo-contenido');
-        const btnGuardarContenido = document.getElementById('btn-guardar-contenido');
-        const modalElement = document.getElementById('modal-contenido');
-        const formContenido = document.getElementById('form-contenido');
+        const tablaElement = getElement('tabla-contenidos');
+        filtroCategoriaSelect = getElement('filtro-categoria');
+        const btnNuevoContenido = getElement('btn-nuevo-contenido');
+        const btnGuardarContenido = getElement('btn-guardar-contenido');
+        const modalElement = getElement('modal-contenido');
+        const formContenido = getElement('form-contenido');
 
-        modalTitulo = document.getElementById('modal-contenido-label');
-        contenidoIdInput = document.getElementById('contenido-id');
-        tituloInput = document.getElementById('titulo');
-        categoriaSelect = document.getElementById('categoria');
-        estadoSelect = document.getElementById('estado');
-        destacadoCheckbox = document.getElementById('es-destacado');
+        modalTitulo = getElement('modal-contenido-label');
+        contenidoIdInput = getElement('contenido-id');
+        tituloInput = getElement('titulo');
+        categoriaSelect = getElement('categoria');
+        estadoSelect = getElement('estado');
+        destacadoCheckbox = getElement('es-destacado');
 
-        if (!tablaElement || !filtroCategoriaSelect || !btnNuevoContenido || !btnGuardarContenido ||
-            !modalElement || !formContenido || !modalTitulo || !contenidoIdInput || !tituloInput ||
-            !categoriaSelect || !estadoSelect || !destacadoCheckbox) {
-            console.warn('No se encontraron todos los elementos requeridos para inicializar la vista de contenidos.');
+        const missingElements = [
+            ['#tabla-contenidos', tablaElement],
+            ['#filtro-categoria', filtroCategoriaSelect],
+            ['#btn-nuevo-contenido', btnNuevoContenido],
+            ['#btn-guardar-contenido', btnGuardarContenido],
+            ['#modal-contenido', modalElement],
+            ['#form-contenido', formContenido],
+            ['#modal-contenido-label', modalTitulo],
+            ['#contenido-id', contenidoIdInput],
+            ['#titulo', tituloInput],
+            ['#categoria', categoriaSelect],
+            ['#estado', estadoSelect],
+            ['#es-destacado', destacadoCheckbox]
+        ].filter(([, element]) => !element).map(([selector]) => selector);
+
+        if (missingElements.length > 0) {
+            console.warn('No se encontraron los siguientes elementos requeridos:', missingElements.join(', '));
             return;
         }
 
@@ -243,7 +260,7 @@
     }
 
     function resetFormulario() {
-        const form = document.getElementById('form-contenido');
+        const form = getElement('form-contenido');
         form?.reset();
         if (contenidoIdInput) {
             contenidoIdInput.value = '';
