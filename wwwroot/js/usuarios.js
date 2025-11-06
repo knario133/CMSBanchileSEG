@@ -20,6 +20,12 @@
      * Initializes the page elements and event listeners once the DOM is fully loaded.
      */
     document.addEventListener('DOMContentLoaded', function() {
+        const tablaElement = document.getElementById('tabla-usuarios');
+        if (!tablaElement) {
+            console.warn('No se encontró el elemento #tabla-usuarios. Se cancela la inicialización de la página de usuarios.');
+            return;
+        }
+
         // DataTable initialization
         tablaUsuarios = $('#tabla-usuarios').DataTable({
             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
@@ -47,8 +53,15 @@
         cargarDatosIniciales();
 
         // Event listeners
-        document.getElementById('btn-nuevo-usuario').addEventListener('click', abrirModalNuevo);
-        document.getElementById('btn-guardar-usuario').addEventListener('click', guardarUsuario);
+        const btnNuevo = document.getElementById('btn-nuevo-usuario');
+        if (btnNuevo) {
+            btnNuevo.addEventListener('click', abrirModalNuevo);
+        }
+
+        const btnGuardar = document.getElementById('btn-guardar-usuario');
+        if (btnGuardar) {
+            btnGuardar.addEventListener('click', guardarUsuario);
+        }
 
         $('#tabla-usuarios tbody').on('click', '.btn-editar', function() {
             abrirModalEditar($(this).data('id'));
@@ -86,6 +99,10 @@
      */
     function renderizarCheckboxesRoles() {
         const container = document.getElementById('roles-container');
+        if (!container) {
+            console.warn('No se encontró el contenedor de roles en el DOM.');
+            return;
+        }
         container.innerHTML = todosLosRoles.map(rol => `
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="${rol.IdRol}" id="rol-${rol.IdRol}" name="roles">

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -29,17 +29,23 @@ namespace CMSBanchileSEGUROS.Sitios
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+
                 using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM CMS_Contenido", connection))
                 {
                     ContenidoCount = (int)command.ExecuteScalar();
+                    ContenidoCountLiteral.Text = ContenidoCount.ToString();
                 }
+
                 using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM CMS_Categoria", connection))
                 {
                     CategoriasCount = (int)command.ExecuteScalar();
+                    CategoriasCountLiteral.Text = CategoriasCount.ToString();
                 }
+
                 using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM CMS_Usuario", connection))
                 {
                     UsuariosCount = (int)command.ExecuteScalar();
+                    UsuariosCountLiteral.Text = UsuariosCount.ToString();
                 }
             }
         }

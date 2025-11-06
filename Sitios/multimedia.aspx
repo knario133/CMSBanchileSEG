@@ -1,11 +1,13 @@
 <%@ Page Title="Gestión de Multimedia - CMS Banchile" Language="C#" MasterPageFile="~/Template.Master" AutoEventWireup="true" CodeBehind="multimedia.aspx.cs" Inherits="CMSBanchileSEGUROS.Sitios.multimedia" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        .upload-area { border: 2px dashed #003366; border-radius: 0.5rem; padding: 2rem; text-align: center; cursor: pointer; background-color: #f8f9fa; }
-        .upload-area:hover { background-color: #e9ecef; }
+        .upload-area { border: 2px dashed #003366; border-radius: 0.5rem; padding: 2rem; text-align: center; cursor: pointer; background-color: #f8f9fa; transition: background-color 0.2s ease, border-color 0.2s ease; }
+        .upload-area:hover,
+        .upload-area.dragover { background-color: #e9ecef; border-color: #0d6efd; }
         .gallery-card { height: 100%; }
         .gallery-card img { height: 150px; object-fit: cover; }
         .gallery-card .pdf-icon { font-size: 5rem; text-align: center; padding: 30px 0; }
+        #upload-progress-container { height: 0.75rem; }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -19,8 +21,8 @@
                 <p>Arrastra y suelta archivos aquí, o haz clic para seleccionar.</p>
                 <small class="text-muted">Tipos permitidos: JPG, PNG, PDF. Tamaño máximo: 5 MB.</small>
             </div>
-             <div class="progress mt-3" style="display: none;">
-                <div id="upload-progress" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+            <div id="upload-progress-container" class="progress mt-3" style="display: none;">
+                <div id="upload-progress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%;"></div>
             </div>
         </div>
     </div>
